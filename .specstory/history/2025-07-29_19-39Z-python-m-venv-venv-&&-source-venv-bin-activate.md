@@ -2009,7 +2009,54 @@ LEt's push the branch into main
 
 _**Assistant**_
 
-I'll help you merge the v3.1 branch into main. Let me check the current git status and then merge the branch. 
+I'll help you merge the v3.1 branch into main. Let me check the current git status and then merge the branch. I see we're on the v3.1 branch and there are some new changes (the latest run output). Let me add these changes and then switch to main to merge the branch: Now let me switch to main and merge the v3.1 branch: Perfect! I've successfully merged the v3.1 branch into main. Here's what happened:
+
+## ✅ Branch Merge Completed
+
+**What was merged:**
+- **v3.1 Features**: Enhanced orchestrator core, robust JSON handling, schema repair utilities
+- **GitHub Actions**: New automated workflow for orchestrator runs
+- **Latest Run Artifacts**: Complete marketing campaign for "Launch beta for EU SMB founders"
+
+**Changes Summary:**
+- 24 files changed
+- 1,524 insertions, 22 deletions
+- Fast-forward merge (no conflicts)
+
+**New Features Now in Main:**
+1. **Enhanced Orchestrator** (`core.py`) - Better error handling and metrics
+2. **Schema Repair Tool** (`repair_run.py`) - Automated JSON validation and repair
+3. **GitHub Actions** (`run-orchestrator.yml`) - CI/CD pipeline
+4. **Complete Campaign Artifacts** - Evidence pack, strategy, positioning, content calendar, LinkedIn post
+
+**Current Status:**
+- ✅ v3.1 branch merged into main
+- ✅ All changes pushed to GitHub
+- ✅ Repository now includes latest campaign run for EU SMB founders
+- ✅ Enhanced pipeline features active
+
+The main branch now contains all the v3.1 improvements plus your complete marketing campaign artifacts. The enhanced system is ready for production use with better reliability and automated workflows.
+
+---
+
+_**User**_
+
+# from your repo root
+git checkout -b chore/tiny-pr-v3.1.1
+
+# unzip into the repo root (preserve paths like app/, Makefile)
+unzip -o ~/Downloads/tiny-pr-v3.1.1.zip -d .
+
+git add -A
+git commit -m "tiny-pr: POST_FILENAME support + Makefile helpers"
+git push -u origin chore/tiny-pr-v3.1.1
+# open a PR to main on GitHub
+
+---
+
+_**Assistant**_
+
+
 
 ---
 
