@@ -1,0 +1,4 @@
+{"ts": "2025-07-29T20:29:31.090462Z", "event": "run_started", "run_id": "20250729-222931", "goal": "Launch beta for EU SMB founders"}
+{"ts": "2025-07-29T20:29:31.095454Z", "event": "task_started", "role": "researcher", "goal": "Compile research/evidence pack", "task_id": "1753820971-researcher"}
+{"ts": "2025-07-29T20:29:31.097961Z", "event": "task_failed", "role": "researcher", "task_id": "1753820971-researcher", "error": "No module named 'openai'"}
+{"ts": "2025-07-29T20:29:31.098519Z", "event": "run_completed", "total_artifacts": 0, "index": "out/20250729-222931/SUMMARY.md"}

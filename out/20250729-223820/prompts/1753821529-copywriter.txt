@@ -1,0 +1,37 @@
+Write one LinkedIn post draft:
+- 120–220 words, single CTA.
+- Cite evidence_id(s) used from Evidence Pack at the end: "Sources: f1, f3".
+- Respect brand voice and guardrails from Compass.
+Return plain text only.
+
+
+Pillar:
+{
+  "id": "ease_of_use",
+  "name": "Effortless Automation",
+  "claims": [
+    "Automate without coding",
+    "Connect your favorite apps easily",
+    "Get started quickly with templates"
+  ],
+  "evidence_ids": [
+    "fact_1",
+    "fact_4",
+    "fact_5"
+  ],
+  "tones": [
+    "Approachable",
+    "Empowering",
+    "Efficient"
+  ],
+  "ctas": [
+    "Start automating for free",
+    "Explore our templates",
+    "Connect your apps now"
+  ]
+}
+
+Evidence Pack (IDs + claims):
+[]
+
+Return plain text only.

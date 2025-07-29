@@ -1,0 +1,10 @@
+{
+  "models": {},
+  "temps": {
+    "researcher": 0.2,
+    "strategist": 0.3,
+    "content_planner": 0.2,
+    "copywriter": 0.7
+  },
+  "budget_eur": 0.0
+}

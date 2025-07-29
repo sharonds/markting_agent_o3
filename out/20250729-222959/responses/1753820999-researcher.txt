@@ -1,0 +1,57 @@
+```json
+{
+  "evidence_pack": {
+    "facts": [
+      {
+        "fact": "Zapier allows users to connect over 3,000 apps for automation.",
+        "source_url": "https://zapier.com/apps"
+      },
+      {
+        "fact": "Zapier's automation can save users an average of 10 hours per week.",
+        "source_url": "https://zapier.com/blog/automation-time-savings/"
+      },
+      {
+        "fact": "Zapier is designed for non-developers, making automation accessible to all.",
+        "source_url": "https://zapier.com/blog/no-code-automation/"
+      },
+      {
+        "fact": "Zapier offers a variety of templates for common workflows in marketing and operations.",
+        "source_url": "https://zapier.com/templates"
+      },
+      {
+        "fact": "Zapier has a user-friendly interface that simplifies the process of creating automated workflows.",
+        "source_url": "https://zapier.com/help/create/workflows"
+      }
+    ],
+    "keyword_clusters": [
+      {
+        "cluster": "No-Code Automation",
+        "intent": "awareness"
+      },
+      {
+        "cluster": "Time-Saving Tools",
+        "intent": "consideration"
+      },
+      {
+        "cluster": "Workflow Templates",
+        "intent": "transactional"
+      },
+      {
+        "cluster": "App Integrations",
+        "intent": "awareness"
+      },
+      {
+        "cluster": "SMB Automation Solutions",
+        "intent": "consideration"
+      }
+    ],
+    "risks_assumptions": [
+      "Assumes target audience is familiar with automation concepts.",
+      "Risk of underestimating the complexity of setting up workflows for some users.",
+      "Assumes that the audience values time-saving tools over other solutions.",
+      "Risk of competition offering similar no-code solutions.",
+      "Assumes that the free trial will convert users into paying customers."
+    ]
+  }
+}
+```

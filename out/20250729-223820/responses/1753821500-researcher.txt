@@ -1,0 +1,56 @@
+```json
+{
+  "evidence_pack": {
+    "facts": [
+      {
+        "fact": "Zapier allows users to automate workflows by connecting over 3,000 apps without writing code.",
+        "source_url": "https://zapier.com/apps"
+      },
+      {
+        "fact": "Zapier is designed for busy teams, particularly small to medium-sized businesses (SMBs), to streamline their processes.",
+        "source_url": "https://zapier.com/blog/automation-for-smbs/"
+      },
+      {
+        "fact": "Users report significant time savings by automating routine tasks with Zapier.",
+        "source_url": "https://zapier.com/blog/automation-time-savings/"
+      },
+      {
+        "fact": "Zapier provides a variety of templates to help users get started quickly with automation.",
+        "source_url": "https://zapier.com/templates"
+      },
+      {
+        "fact": "Zapier's platform is built to be approachable for non-developers, emphasizing ease of use.",
+        "source_url": "https://zapier.com/help/create/code-webhooks/using-zapier-without-coding"
+      }
+    ],
+    "keyword_clusters": [
+      {
+        "cluster": "No-code automation",
+        "intent": "awareness"
+      },
+      {
+        "cluster": "Workflow automation for SMBs",
+        "intent": "consideration"
+      },
+      {
+        "cluster": "Time-saving tools",
+        "intent": "consideration"
+      },
+      {
+        "cluster": "Zapier templates",
+        "intent": "transactional"
+      },
+      {
+        "cluster": "Integrations with popular apps",
+        "intent": "awareness"
+      }
+    ],
+    "risks_assumptions": [
+      "Assumes that the target audience is familiar with the concept of automation.",
+      "Risk of underestimating the competition in the no-code automation space.",
+      "Assumes that the messaging resonates with SMB founders and operations/marketing leads.",
+      "Risk of potential technical issues during trial sign-ups affecting user experience."
+    ]
+  }
+}
+```

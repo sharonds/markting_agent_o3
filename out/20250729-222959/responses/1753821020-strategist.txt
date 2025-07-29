@@ -1,0 +1,74 @@
+Here's the Strategy Pack in JSON format according to the 'strategy_pack' schema:
+
+{
+  "strategy_pack": {
+    "icp": {
+      "demographics": [
+        "Small to medium-sized business owners",
+        "Marketing and operations professionals",
+        "Non-technical users seeking automation solutions"
+      ],
+      "psychographics": [
+        "Values time efficiency and productivity",
+        "Interested in streamlining business processes",
+        "Open to adopting new technologies",
+        "Seeks user-friendly solutions"
+      ],
+      "behaviors": [
+        "Uses multiple apps and tools for business operations",
+        "Spends significant time on repetitive tasks",
+        "Actively looks for ways to improve workflow efficiency"
+      ]
+    },
+    "positioning": {
+      "target_audience": "Non-technical professionals in small to medium-sized businesses seeking to automate their workflows",
+      "market_category": "No-code automation platform",
+      "key_benefit": "Effortlessly connect and automate tasks across 3,000+ apps without coding skills",
+      "proof_points": [
+        {
+          "point": "Over 3,000 app integrations available",
+          "evidence_id": 0
+        },
+        {
+          "point": "Saves users an average of 10 hours per week",
+          "evidence_id": 1
+        },
+        {
+          "point": "User-friendly interface for creating automated workflows",
+          "evidence_id": 4
+        }
+      ]
+    },
+    "messaging": {
+      "tagline": "Automate your work, amplify your productivity",
+      "pillars": [
+        {
+          "pillar": "Effortless Automation for Everyone",
+          "description": "Zapier makes automation accessible to non-developers, allowing anyone to create powerful workflows without coding.",
+          "evidence_ids": [2, 4]
+        },
+        {
+          "pillar": "Connect Your Favorite Apps",
+          "description": "With over 3,000 app integrations, Zapier lets you seamlessly connect and automate tasks across all your essential tools.",
+          "evidence_ids": [0]
+        },
+        {
+          "pillar": "Save Time, Boost Productivity",
+          "description": "Zapier's automation capabilities can save you an average of 10 hours per week, allowing you to focus on what matters most.",
+          "evidence_ids": [1]
+        },
+        {
+          "pillar": "Ready-Made Solutions",
+          "description": "Get started quickly with Zapier's variety of templates for common workflows in marketing and operations.",
+          "evidence_ids": [3]
+        }
+      ]
+    }
+  }
+}
+
+And here's the content for the 'positioning.md' file:
+
+# Zapier Positioning
+
+Zapier is the no-code automation platform that empowers non-technical professionals in small to medium-sized businesses to effortlessly connect and automate tasks across 3,000+ apps without coding skills, saving them an average of 10 hours per week and amplifying their productivity.

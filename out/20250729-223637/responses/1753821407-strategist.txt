@@ -1,0 +1,61 @@
+Here's the JSON output according to the 'strategy_pack' schema:
+
+{
+  "icp": {
+    "demographics": [
+      {
+        "type": "Company Size",
+        "attributes": ["Small to Medium-sized Businesses (SMBs)"]
+      },
+      {
+        "type": "Job Roles",
+        "attributes": ["Founders", "Operations Managers", "Marketing Managers"]
+      }
+    ],
+    "psychographics": [
+      "Seeking efficiency in business operations",
+      "Open to adopting new technologies",
+      "Values time-saving solutions",
+      "Interested in scaling operations without increasing headcount"
+    ],
+    "behaviors": [
+      "Actively looking for ways to streamline workflows",
+      "Comfortable with digital tools but not necessarily tech-savvy",
+      "Manages multiple applications and platforms for business operations"
+    ]
+  },
+  "positioning": {
+    "target_audience": "SMB founders and managers seeking to improve operational efficiency",
+    "category": "No-code automation platform",
+    "primary_benefit": "Effortlessly connect and automate workflows across multiple apps without coding skills",
+    "secondary_benefit": "Save time and scale operations efficiently"
+  },
+  "messaging": {
+    "tagline": "Automate your work, amplify your impact",
+    "pillars": [
+      {
+        "pillar": "Seamless Integration Across Platforms",
+        "description": "Connect and automate workflows across 3,000+ apps without any coding required",
+        "evidence_ids": [0, 1]
+      },
+      {
+        "pillar": "Time-Saving Automation",
+        "description": "Reclaim valuable hours by automating repetitive tasks and streamlining operations",
+        "evidence_ids": [2, 4]
+      },
+      {
+        "pillar": "User-Friendly Templates",
+        "description": "Get started quickly with pre-built automation templates designed for various business needs",
+        "evidence_ids": [3]
+      }
+    ]
+  }
+}
+
+I've also created a 'positioning.md' file with the following content:
+
+```markdown
+# Zapier: Effortless Automation for Growing Businesses
+
+Zapier is the no-code automation platform that empowers SMB founders and managers to effortlessly connect and automate workflows across multiple apps, saving time and scaling operations efficiently—all without requiring coding skills.
+```

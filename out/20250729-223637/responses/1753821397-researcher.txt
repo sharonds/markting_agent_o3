@@ -1,0 +1,60 @@
+```json
+{
+  "evidence_pack": {
+    "facts": [
+      {
+        "fact": "Zapier offers integrations with over 3,000 apps, allowing users to automate workflows across various platforms.",
+        "source_url": "https://zapier.com/apps"
+      },
+      {
+        "fact": "Zapier's automation tools are designed for non-developers, making it accessible for users without coding experience.",
+        "source_url": "https://zapier.com/learn/automation/"
+      },
+      {
+        "fact": "Users report significant time savings by automating repetitive tasks with Zapier, although specific numeric guarantees are not provided.",
+        "source_url": "https://zapier.com/blog/automation-time-saving/"
+      },
+      {
+        "fact": "Zapier provides a variety of templates to help users get started with automation quickly.",
+        "source_url": "https://zapier.com/templates"
+      },
+      {
+        "fact": "The platform is particularly beneficial for small to medium-sized businesses (SMBs) looking to scale their operations efficiently.",
+        "source_url": "https://zapier.com/blog/small-business-automation/"
+      }
+    ],
+    "keyword_clusters": [
+      {
+        "cluster": "No-code automation",
+        "intent": "awareness"
+      },
+      {
+        "cluster": "Workflow integration",
+        "intent": "consideration"
+      },
+      {
+        "cluster": "Time-saving tools",
+        "intent": "consideration"
+      },
+      {
+        "cluster": "Automation templates",
+        "intent": "transactional"
+      },
+      {
+        "cluster": "SMB efficiency",
+        "intent": "awareness"
+      }
+    ],
+    "risks": [
+      "Potential users may not fully understand the benefits of no-code automation.",
+      "There may be skepticism about the actual time savings without specific metrics.",
+      "Users might find the initial setup process challenging despite the platform's accessibility."
+    ],
+    "assumptions": [
+      "SMB founders are actively seeking tools to improve operational efficiency.",
+      "The target audience is familiar with the concept of automation but may not have used it before.",
+      "The marketing channels selected will effectively reach the intended audience."
+    ]
+  }
+}
+```
