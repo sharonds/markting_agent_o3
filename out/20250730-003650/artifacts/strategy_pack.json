@@ -1,0 +1,134 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB Founders",
+        "description": "Founders of small to medium-sized businesses in the EU and UK looking to streamline operations",
+        "pain_points": [
+          "Limited time for manual, repetitive tasks",
+          "Need for cost-effective solutions",
+          "Lack of technical expertise for complex integrations"
+        ],
+        "objections": [
+          "We're too small to need automation",
+          "It's too complicated to set up",
+          "We can't afford another software subscription",
+          "We're worried about data security"
+        ]
+      },
+      {
+        "name": "SaaS Operations Leads",
+        "description": "Operations managers at SaaS companies seeking to improve internal processes",
+        "pain_points": [
+          "Managing multiple software tools",
+          "Inefficient data transfer between systems",
+          "Need for scalable solutions as the company grows"
+        ],
+        "objections": [
+          "Our current processes work fine",
+          "We need a more customized solution",
+          "It might disrupt our existing workflows",
+          "We're concerned about employee adoption"
+        ]
+      },
+      {
+        "name": "Marketing Managers",
+        "description": "Marketing leads at service firms looking to automate marketing tasks",
+        "pain_points": [
+          "Time-consuming data entry and reporting",
+          "Difficulty in synchronizing marketing tools",
+          "Need for better lead management processes"
+        ],
+        "objections": [
+          "We already use a marketing automation platform",
+          "It might not integrate with all our tools",
+          "We're not sure about the ROI",
+          "Our team might resist the change"
+        ]
+      }
+    ],
+    "firmographics": {
+      "company_size": "1-250 employees",
+      "industry": [
+        "SaaS",
+        "Professional Services",
+        "E-commerce"
+      ],
+      "geography": [
+        "EU",
+        "UK"
+      ],
+      "tech_stack": [
+        "CRM systems",
+        "Marketing automation tools",
+        "Project management software"
+      ]
+    }
+  },
+  "positioning": {
+    "tagline": "Automate your work, amplify your impact",
+    "value_proposition": "Zapier empowers SMBs to create efficient, automated workflows without coding, saving time and reducing errors across business processes.",
+    "unique_selling_points": [
+      "Over 3,000 app integrations for versatile automation",
+      "No-code solution accessible to non-technical users",
+      "Scalable from free plans to enterprise-level automation"
+    ],
+    "brand_pillars": [
+      "Simplicity in automation",
+      "Empowerment through integration",
+      "Efficiency without complexity"
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "name": "Time-Saving Automation",
+        "key_message": "Reclaim your workweek with Zapier's time-saving automations",
+        "supporting_points": [
+          "Automate repetitive tasks across 3,000+ apps",
+          "Save an average of 10 hours per week on manual processes",
+          "Focus on high-value work that grows your business"
+        ],
+        "evidence_ids": [
+          3,
+          0
+        ]
+      },
+      {
+        "name": "Accessible Integration",
+        "key_message": "Connect your favorite tools without coding or IT support",
+        "supporting_points": [
+          "Create powerful workflows with an intuitive, no-code interface",
+          "Choose from thousands of pre-built integrations",
+          "Customize automations to fit your unique business needs"
+        ],
+        "evidence_ids": [
+          0
+        ]
+      },
+      {
+        "name": "Scalable Efficiency",
+        "key_message": "Start small and scale your automation as your business grows",
+        "supporting_points": [
+          "Begin with a free plan to explore automation possibilities",
+          "Upgrade to handle complex workflows and higher volumes",
+          "Join 4 million users worldwide in streamlining operations"
+        ],
+        "evidence_ids": [
+          2,
+          1
+        ]
+      }
+    ],
+    "tone_and_voice": [
+      "Friendly and approachable, avoiding technical jargon",
+      "Clear and concise, focusing on practical benefits",
+      "Empowering, emphasizing user control and customization"
+    ],
+    "calls_to_action": [
+      "Start automating for free",
+      "Explore 3,000+ app integrations",
+      "See how much time you could save"
+    ]
+  }
+}

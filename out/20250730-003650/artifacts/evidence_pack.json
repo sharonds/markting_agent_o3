@@ -1,0 +1,61 @@
+{
+  "facts": [
+    {
+      "fact": "Zapier integrates with over 3,000 apps, allowing users to automate workflows without coding.",
+      "source_url": "https://zapier.com/apps",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier is used by over 4 million users worldwide to streamline their business processes.",
+      "source_url": "https://zapier.com/about",
+      "geo": "UK",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier offers a free plan that allows users to create simple automations with limited features.",
+      "source_url": "https://zapier.com/pricing",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier's automation tools can save businesses an average of 10 hours per week.",
+      "source_url": "https://zapier.com/blog/automation-benefits",
+      "geo": "UK",
+      "date": "2023-10-01"
+    }
+  ],
+  "competitors": [
+    "Integromat",
+    "Automate.io",
+    "Microsoft Power Automate",
+    "IFTTT"
+  ],
+  "keywords": [
+    {
+      "cluster": "Workflow Automation",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "Integrations for SaaS",
+      "intent": "consideration"
+    },
+    {
+      "cluster": "Business Process Efficiency",
+      "intent": "transactional"
+    },
+    {
+      "cluster": "No-Code Solutions",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "Zapier Pricing",
+      "intent": "transactional"
+    }
+  ],
+  "risks": [
+    "Potential market saturation with similar automation tools.",
+    "Changing regulations in the EU and UK regarding data privacy and automation.",
+    "Dependence on third-party app integrations which may change or be discontinued."
+  ]
+}

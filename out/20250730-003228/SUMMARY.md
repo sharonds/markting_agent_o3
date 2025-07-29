@@ -1,0 +1,19 @@
+# Run Summary
+
+- researcher: done
+  - json: out/20250730-003228/artifacts/evidence_pack.json — Evidence pack
+- strategist: failed
+
+---
+## Health metrics
+- facts: 4
+- competitors: 3
+- keyword_clusters: 3
+- icp_segments: 0
+- pillars: 0
+- calendar_items: 0
+- intent_counts: {}
+- calendar_pillar_mismatches: 0
+
+## Cost
+- estimated_spend_eur: 0.0000

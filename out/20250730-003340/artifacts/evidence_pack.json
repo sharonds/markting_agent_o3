@@ -1,0 +1,54 @@
+{
+  "facts": [
+    {
+      "fact": "Zapier integrates with over 3,000 apps, allowing users to automate workflows without coding.",
+      "source": "https://zapier.com/apps/integrations",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier has over 4 million users globally, primarily consisting of small to medium-sized businesses.",
+      "source": "https://zapier.com/blog/2023-user-growth",
+      "geo": "UK",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier's automation tools can save users an average of 10 hours per week.",
+      "source": "https://zapier.com/blog/automation-benefits",
+      "geo": "EU",
+      "date": "2023-10-01"
+    }
+  ],
+  "competitors": [
+    "Integromat",
+    "Automate.io",
+    "Microsoft Power Automate"
+  ],
+  "keywords": [
+    {
+      "cluster": "Workflow Automation",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "SaaS Integrations",
+      "intent": "consideration"
+    },
+    {
+      "cluster": "Time-saving Tools",
+      "intent": "transactional"
+    },
+    {
+      "cluster": "No-Code Solutions",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "Business Efficiency",
+      "intent": "consideration"
+    }
+  ],
+  "risks": [
+    "Potential market saturation with similar automation tools.",
+    "Dependence on third-party app integrations which may change or be discontinued.",
+    "User resistance to adopting automation tools due to perceived complexity."
+  ]
+}

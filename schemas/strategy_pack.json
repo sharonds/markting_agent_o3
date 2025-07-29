@@ -1,3 +1,4 @@
+
 {
   "type":"object",
   "required":["icp","positioning","messaging"],
@@ -12,7 +13,8 @@
           "gains":{"type":"array","items":{"type":"string"}},
           "triggers":{"type":"array","items":{"type":"string"}},
           "qualifiers":{"type":"array","items":{"type":"string"}},
-          "disqualifiers":{"type":"array","items":{"type":"string"}}
+          "disqualifiers":{"type":"array","items":{"type":"string"}},
+          "objections":{"type":"array","items":{"type":"string"}}
         }}}}},
     "positioning":{"type":"object","required":["category","for","who","our_product","is_a","unlike","we","rtbs"],
       "properties":{

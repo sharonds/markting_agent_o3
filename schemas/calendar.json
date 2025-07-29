@@ -1,3 +1,4 @@
+
 {
   "type":"object",
   "required":["items"],
@@ -10,7 +11,9 @@
         "title":{"type":"string"},
         "pillar_id":{"type":"string"},
         "intent":{"type":"string","enum":["awareness","consideration","transactional"]},
-        "status":{"type":"string","enum":["draft","ready","scheduled"]}
-      }}}
+        "status":{"type":"string","enum":["draft","ready","scheduled"]},
+        "format":{"type":"string"},
+        "cta":{"type":"string"}
+      }}}}
   }
 }

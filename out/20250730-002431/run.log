@@ -1,0 +1,4 @@
+2025-07-30 00:24:31,171 | INFO | run_started :: {'run_id': '20250730-002431', 'goal': 'Launch beta for EU SMB founders'}
+2025-07-30 00:24:31,179 | INFO | task_started :: {'role': 'researcher', 'goal': 'Compile research/evidence pack', 'task_id': '1753827871-researcher'}
+2025-07-30 00:24:40,215 | INFO | task_failed :: {'role': 'researcher', 'task_id': '1753827871-researcher', 'error': "'CompletionUsage' object has no attribute 'get'"}
+2025-07-30 00:24:40,215 | INFO | run_completed :: {'spent_eur': 0.0}
