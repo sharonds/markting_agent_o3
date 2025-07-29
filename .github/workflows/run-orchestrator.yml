@@ -7,6 +7,10 @@ on:
         description: 'Goal for the orchestrator'
         required: true
         default: 'Launch beta for EU SMB founders'
+      post_filename:
+        description: 'Output filename for the LinkedIn post (default: post_linkedin.md)'
+        required: false
+        default: 'post_linkedin.md'
 
 jobs:
   orchestrate:
@@ -33,6 +37,7 @@ jobs:
           LLM_COPYWRITER: openai
           AUTO_APPROVE: '1'
           BUDGET_EUR: '8'
+          POST_FILENAME: ${{ github.event.inputs.post_filename }}
         run: |
           export PYTHONPATH=.
           GOAL="${{ github.event.inputs.goal }}"

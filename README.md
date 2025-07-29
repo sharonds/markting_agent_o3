@@ -1,28 +1,19 @@
-# v3.1 PR bundle (generated 2025-07-29T21:19:23.601516Z)
+<!-- v3.1.2 addendum (generated 2025-07-29T21:44:26.200696Z) -->
+## Post filename & one-command PR
 
-This bundle includes:
-- Robust JSON extraction (code fences + wrapper key unwrapping)
-- One-shot "repair to schema" retry for JSON outputs
-- Strategist/Researcher prompts updated to require **single top-level JSON** (no fences/wrappers)
-- Content planner post-processing (pillar_id name→id remap; intent coercion)
-- Copywriter: enforce brand name from Compass, always append "Sources: fX, fY"
-- Validation shim for jsonschema (Draft2020 vs Draft202012)
-- SUMMARY.md health metrics footer
+**Control the LinkedIn post filename** via env or Makefile:
+```bash
+export POST_FILENAME=post_001.md   # default is post_linkedin.md
+make run GOAL="Launch beta for EU SMB founders"
+# outputs: out/<run-id>/artifacts/post_001.md
+```
 
-## Apply
-1) Create a branch:
-   ```bash
-   git checkout -b chore/v3.1
-   ```
-2) Copy the files from this bundle into your repo root (preserving paths).
-3) Commit and push:
-   ```bash
-   git add -A
-   git commit -m "v3.1: robust JSON, schema repair, planner remap, summary metrics"
-   git push -u origin chore/v3.1
-   ```
-4) Open a Pull Request to `main`.
-
-## Optional
-- Add `export PYTHONPATH=.` to your GitHub Action run step.
-- Use `tools/repair_run.py` to normalize older runs if needed.
+**Open a branch, run, commit /out, and push a PR** (requires `gh` GitHub CLI authenticated):
+```bash
+make pr GOAL="Launch beta for EU SMB founders" BRANCH="chore/zapier-eu-beta" POST_FILENAME=post_001.md
+```
+This will:
+1. create/switch to `BRANCH`,
+2. run the orchestrator with `AUTO_APPROVE=1`,
+3. commit `out/` artifacts,
+4. push and open a PR (if `gh` is installed).
