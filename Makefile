@@ -8,7 +8,11 @@ BRANCH?=chore/run-$(shell date +%Y%m%d-%H%M%S)
 POST_FILENAME?=post_linkedin.md
 
 setup:
-	{-e "import sys; assert sys.version_info>=(3,10), 'Python>=3.10 recommended'" || true}
+	@python - <<'PY' || true
+import sys
+req=(3,10)
+print(f"Python {sys.version.split()[0]} (recommended >= {req[0]}.{req[1]}).")
+PY
 	$(PY) -m pip install --upgrade pip
 	@if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 	pip install openai anthropic
