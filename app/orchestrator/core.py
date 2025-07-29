@@ -1,4 +1,5 @@
 import os, time, json
+from collections import Counter
 from app.state import ProjectState, Task, Artifact
 from app.logs import EventLogger
 from app.agents import researcher, strategist, content_planner, copywriter
@@ -19,11 +20,34 @@ PIPELINE = [
     ("copywriter", "Draft first LinkedIn post"),
 ]
 
+def _metrics(run_dir):
+    base = os.path.join(run_dir, "artifacts")
+    def _load(fn):
+        p=os.path.join(base, fn)
+        return json.load(open(p,"r",encoding="utf-8")) if os.path.exists(p) else None
+    ev=_load("evidence_pack.json") or {}
+    sp=_load("strategy_pack.json") or {}
+    cal=_load("calendar.json") or {}
+    facts=len(ev.get("facts",[]))
+    comps=len(ev.get("competitors",[]))
+    kws=len(ev.get("keywords",[]))
+    segs=len((sp.get("icp") or {}).get("segments",[]))
+    pillars=(sp.get("messaging") or {}).get("pillars",[])
+    pcount=len(pillars)
+    intents=Counter(i.get("intent","") for i in cal.get("items",[]))
+    pid_set={p.get("id") for p in pillars}
+    bad_calendar=[i for i in cal.get("items",[]) if i.get("pillar_id") not in pid_set]
+    return {
+        "facts":facts,"competitors":comps,"keyword_clusters":kws,
+        "icp_segments":segs,"pillars":pcount,
+        "calendar_items":len(cal.get("items",[])),"intent_counts":dict(intents),
+        "calendar_pillar_mismatches":len(bad_calendar)
+    }
+
 def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> ProjectState:
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
 
-    # DB
     db = connect(os.path.join(run_dir, "run.sqlite"))
     manifest = {
         "models": {},
@@ -32,9 +56,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     }
     db_start_run(db, os.path.basename(run_dir), state.intake.get("objective",""), manifest.get("budget_eur", 0), model_info=manifest)
 
-    # Router
     router = LLMRouter()
-    # Create prompt/response folders in ctx
     ctx = {
         "compass_meta": state.compass_meta,
         "compass_body": state.compass_body,
@@ -92,7 +114,6 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
-    # Write summary + manifest
     index_path = os.path.join(run_dir, "SUMMARY.md")
     with open(index_path, "w", encoding="utf-8") as f:
         f.write("# Run Summary\n\n")
@@ -100,9 +121,12 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             f.write(f"- {t.role}: {t.status}\n")
             for a in t.artifacts:
                 f.write(f"  - {a.kind}: {a.path} — {a.summary}\n")
-    with open(os.path.join(run_dir, "run_manifest.json"),"w",encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2)
+        m = _metrics(run_dir)
+        f.write("\n---\n")
+        f.write("## Health metrics\n")
+        for k,v in m.items():
+            f.write(f"- {k}: {v}\n")
 
-    log.event("run_completed", total_artifacts=len(state.artifacts), index=index_path)
+    log.event("run_completed")
     db_end_run(db, os.path.basename(run_dir), "completed")
     return state
