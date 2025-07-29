@@ -1,0 +1,4 @@
+{"ts": "2025-07-29T22:21:39.818690Z", "event": "run_started", "run_id": "20250730-002139", "goal": "Launch beta for EU SMB founders"}
+{"ts": "2025-07-29T22:21:39.823212Z", "event": "task_started", "role": "researcher", "goal": "Compile research/evidence pack", "task_id": "1753827699-researcher"}
+{"ts": "2025-07-29T22:21:48.143890Z", "event": "task_failed", "role": "researcher", "task_id": "1753827699-researcher", "error": "'LLMResponse' object has no attribute 'data'"}
+{"ts": "2025-07-29T22:21:48.148123Z", "event": "run_completed", "spent_eur": 0.0}

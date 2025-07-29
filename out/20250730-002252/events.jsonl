@@ -1,0 +1,4 @@
+{"ts": "2025-07-29T22:22:52.705174Z", "event": "run_started", "run_id": "20250730-002252", "goal": "Launch beta for EU SMB founders"}
+{"ts": "2025-07-29T22:22:52.711699Z", "event": "task_started", "role": "researcher", "goal": "Compile research/evidence pack", "task_id": "1753827772-researcher"}
+{"ts": "2025-07-29T22:23:01.268860Z", "event": "task_failed", "role": "researcher", "task_id": "1753827772-researcher", "error": "'CompletionUsage' object has no attribute 'get'"}
+{"ts": "2025-07-29T22:23:01.269639Z", "event": "run_completed", "spent_eur": 0.0}

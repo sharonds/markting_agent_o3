@@ -1,0 +1,32 @@
+{
+  "brand": "Zapier",
+  "voice": [
+    "friendly",
+    "clear",
+    "practical"
+  ],
+  "guardrails": {
+    "banned_phrases": [
+      "guaranteed results",
+      "the best in the world",
+      "set-and-forget",
+      "works with every tool on earth"
+    ]
+  },
+  "audience": "SMB founders and ops/marketing leads at SaaS and services firms",
+  "geos": [
+    "EU",
+    "UK"
+  ],
+  "locale": "en-GB",
+  "channels": [
+    "LinkedIn",
+    "Blog",
+    "Email"
+  ],
+  "timeline": {
+    "start": "2025-08-05",
+    "end": "2025-09-15"
+  },
+  "ctas": []
+}

@@ -5,7 +5,6 @@ from app.state import Artifact
 from app.validation import validate_obj, load_schema
 from app.io import read_json
 from app.llm_providers import LLMRouter
-from app.llm_utils import attempt_json
 from app.db import add_message
 
 def _offline_strategy(evidence, context_pack):
@@ -61,8 +60,9 @@ Return a single top-level JSON object matching schema 'strategy_pack'. No code f
 """
         messages=[{"role":"system","content":"You are a rigorous strategist producing JSON outputs."},
                   {"role":"user","content": message}]
-        obj, resp = attempt_json(provider, "strategy_pack", messages, schema, temperature=0.3, max_tokens=900)
-        usage = getattr(resp, "usage", None)
+        resp = provider.json(messages, schema, temperature=0.3, max_tokens=900)
+        obj = resp.json_obj
+        usage = {"prompt_tokens": getattr(resp.usage, "prompt_tokens", 0), "completion_tokens": getattr(resp.usage, "completion_tokens", 0)} if resp.usage else None
         add_message(ctx['db'], ctx['run_id'], ctx['current_task_id'], "assistant", provider.name, resp.text, usage)
 
     write_json(os.path.join(base,"strategy_pack.json"), obj)

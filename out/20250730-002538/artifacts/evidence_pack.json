@@ -1,0 +1,61 @@
+{
+  "facts": [
+    {
+      "fact": "Zapier integrates with over 3,000 apps, allowing users to automate workflows without coding.",
+      "source": "https://zapier.com/apps/integrations",
+      "geo": "UK",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier's user base includes over 4 million users worldwide, primarily small to medium-sized businesses.",
+      "source": "https://zapier.com/blog/2023/04/zapier-user-growth",
+      "geo": "EU",
+      "date": "2023-04-15"
+    },
+    {
+      "fact": "Zapier offers a free plan that allows users to create simple automations with limited features.",
+      "source": "https://zapier.com/pricing",
+      "geo": "UK",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier's automation platform is designed to save users time by reducing repetitive tasks.",
+      "source": "https://zapier.com/blog/2023/05/why-use-zapier",
+      "geo": "EU",
+      "date": "2023-05-10"
+    }
+  ],
+  "competitors": [
+    "Integromat",
+    "Automate.io",
+    "Microsoft Power Automate",
+    "IFTTT"
+  ],
+  "keywords": [
+    {
+      "cluster": "Workflow Automation",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "SaaS Integrations",
+      "intent": "consideration"
+    },
+    {
+      "cluster": "Business Efficiency Tools",
+      "intent": "transactional"
+    },
+    {
+      "cluster": "No-Code Solutions",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "Task Automation",
+      "intent": "consideration"
+    }
+  ],
+  "risks": [
+    "Potential market saturation with similar automation tools.",
+    "Changing regulations in the EU and UK regarding data privacy and automation.",
+    "User resistance to adopting new automation tools due to perceived complexity."
+  ]
+}

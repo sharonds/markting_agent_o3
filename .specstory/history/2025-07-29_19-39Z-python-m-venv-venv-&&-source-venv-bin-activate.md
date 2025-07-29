@@ -2164,7 +2164,231 @@ git push -u origin chore/v3.2
 
 _**Assistant**_
 
-I'll help you create the new branch and apply the v3.2 updates. Let me execute these commands step by step: 
+I'll help you create the new branch and apply the v3.2 updates. Let me execute these commands step by step: Perfect! Let me check what major features were added in v3.2: ## ✅ v3.2 Successfully Created - Major Feature Release!
+
+**What was added in v3.2:**
+
+### 🎯 **Core New Features:**
+
+1. **ContextPack System** (`context_pack.py`):
+   - Centralized context management for all agents
+   - Locale inference (en-GB for UK/EU, en-US default)
+   - Brand voice, guardrails, channels, geos, timeline, audience, CTAs
+   - Injected into every agent for consistent context
+
+2. **Cost Tracking** (`costs.py`):
+   - Token-based cost estimation for OpenAI and Anthropic
+   - Configurable rates via environment variables
+   - EUR total calculations when rates are set
+   - Provider-specific usage tracking
+
+3. **Enhanced Schemas**:
+   - **Evidence Pack**: Added geo/date fields for facts
+   - **Strategy Pack**: Added ICP objections
+   - **Calendar**: Added format/CTA fields for better planning
+
+4. **Smart Content Planner**:
+   - Rule-first slot allocation from timeline/channels
+   - Pillar and intent coverage optimization
+   - Better alignment with brand strategy
+
+5. **Gate Reports** (A/B):
+   - Evidence coverage analysis
+   - Locale/CTA/numeric compliance checks
+   - Quality gates with detailed reporting
+
+6. **Test Suite** (`test_v32_context_and_reports.py`):
+   - Comprehensive testing for context pack
+   - Gate report validation
+   - Cost tracking verification
+
+### 📊 **Enhanced Agent Capabilities:**
+
+- **Researcher**: Context-aware evidence gathering with geo/date tracking
+- **Strategist**: Objection handling in ICP development
+- **Content Planner**: Timeline-driven, channel-specific planning
+- **Copywriter**: CTA and format compliance
+
+### 🔧 **Technical Improvements:**
+
+- **17 files changed** (402 insertions, 153 deletions)
+- **2 new core modules** (context_pack.py, costs.py)
+- **Updated all agent prompts** for context awareness
+- **Enhanced orchestrator** with gate reporting
+- **Comprehensive test coverage**
+
+**Branch Status:**
+- ✅ Branch `chore/v3.2` created
+- ✅ Changes committed: "v3.2: ContextPack, planner, gate reports, costs"
+- ✅ Pushed to GitHub
+
+**Next Step - Create PR:**
+You can now create a pull request by visiting:
+**https://github.com/sharonds/markting_agent_o3/pull/new/chore/v3.2**
+
+This is a significant feature release that adds professional-grade context management, cost tracking, and quality gates to the marketing agents system! 🚀
+
+---
+
+_**User**_
+
+git checkout chore/tiny-pr-v3.1.2
+
+git apply <<'PATCH'
+*** Begin Patch
+*** Update File: Makefile
+@@
+-setup:
+-	{-e "import sys; assert sys.version_info>=(3,10), 'Python>=3.10 recommended'" || true}
+-	$(PY) -m pip install --upgrade pip
+-	@if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+-	pip install openai anthropic
++setup:
++	@python - <<'PY' || true
++import sys
++req=(3,10)
++print(f"Python {sys.version.split()[0]} (recommended >= {req[0]}.{req[1]}).")
++PY
++	$(PY) -m pip install --upgrade pip
++	@if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
++	pip install openai anthropic
+*** End Patch
+PATCH
+
+git apply <<'PATCH'
+*** Begin Patch
+*** Update File: app/agents/copywriter.py
+@@
+-    suffix = "\\n\\n Sources: " + ", ".join(evidence_ids[:2]) + "\\n" if evidence_ids else ""
++    suffix = "\\n\\nSources: " + ", ".join(evidence_ids[:2]) + "\\n" if evidence_ids else ""
+*** End Patch
+PATCH
+
+git add -A
+git commit -m "tiny-pr v3.1.2: fix Makefile setup; standardize 'Sources:' footer"
+git push
+
+---
+
+_**Assistant**_
+
+I'll help you apply these patches to the tiny-pr-v3.1.2 branch. Let me execute the commands step by step: Let me check the current Makefile and apply the patch manually: 
+```
+
+```
+Now let me check the copywriter.py file and apply the second patch: I can see that the `copywriter.py` file already has the correct "Sources:" format (line 11). Let me check if there's a different variation that needs fixing: It looks like the `copywriter.py` file already has the correct format. The patch might have already been applied or the file was updated. Let me add and commit the Makefile changes: Perfect! I've successfully applied the patches to the tiny-pr-v3.1.2 branch. Here's what was accomplished:
+
+## ✅ Patches Applied to tiny-pr-v3.1.2
+
+**Changes Made:**
+
+1. **Fixed Makefile setup target**:
+   - Replaced the problematic shell command syntax with proper Python heredoc
+   - Now uses `@python - <<'PY'` for better cross-platform compatibility
+   - Shows Python version information more cleanly
+   - Format: "Python X.Y.Z (recommended >= 3.10)."
+
+2. **Sources format check**:
+   - The `copywriter.py` file already had the correct "Sources:" format
+   - No changes needed as it was already standardized
+
+**Technical Details:**
+- ✅ Successfully switched to `chore/tiny-pr-v3.1.2` branch
+- ✅ Applied Makefile improvements for better Python version checking
+- ✅ Committed changes: "tiny-pr v3.1.2: fix Makefile setup; standardize 'Sources:' footer"
+- ✅ Pushed to remote branch
+
+**Makefile Improvement:**
+The new setup target is more robust and uses proper Python heredoc syntax instead of shell command substitution, making it more reliable across different shell environments.
+
+The tiny-pr-v3.1.2 branch now has these refinements and is ready for the pull request process!
+
+---
+
+_**User**_
+
+git checkout chore/v3.2
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+pip install openai anthropic
+
+# real keys (or keep them unset to run “offline” stubs if configured)
+export OPENAI_API_KEY=...
+export ANTHROPIC_API_KEY=...
+
+# route tasks to providers (same as earlier successful runs)
+export LLM_RESEARCHER=openai
+export LLM_STRATEGIST=anthropic
+export LLM_CONTENT_PLANNER=openai
+export LLM_COPYWRITER=openai
+
+# auto-approve the two gates so it doesn’t wait for input
+export AUTO_APPROVE=1
+
+# optional: enable € estimates (set the per-1K token rates you want)
+export COST_OPENAI_INPUT_PER1K=0.00
+export COST_OPENAI_OUTPUT_PER1K=0.00
+export COST_ANTHROPIC_INPUT_PER1K=0.00
+export COST_ANTHROPIC_OUTPUT_PER1K=0.00
+
+# (Recommended) set intake fields that v3.2 now uses
+# channels/timeline help the planner do the right thing
+# export INTAKE_CHANNELS='["LinkedIn","Blog"]'
+# export INTAKE_TIMELINE='{"start":"2025-08-05","end":"2025-08-18"}'
+
+# run
+export PYTHONPATH=.
+python app/main.py --goal "Launch beta for EU SMB founders"
+
+---
+
+_**Assistant**_
+
+I'll help you switch to the v3.2 branch and run the marketing agents with the new v3.2 features. Let me execute these commands step by step: I need to handle the local changes first. Let me stash them and then switch: Now let me set up the environment variables and run the v3.2 system with the enhanced features. I'll load the environment file first, then set the additional variables: It looks like there's a missing module reference. Let me check what the correct import should be: Let me check what the correct module should be: It seems like there's an import issue in the v3.2 code. Let me check what functions are available in llm_providers: It looks like the function might be called something else. Let me fix the import by replacing `attempt_json` with the correct function. Let me check the researcher file: I need to fix the import. Looking at the available functions, it seems like the v3.2 code expects an `attempt_json` function that doesn't exist. Let me check what the llm_providers actually provides and fix the import: 
+```
+
+```
+Now I need to find where the function is used and replace it with the correct API call. Let me check the usage: Let me check how the LLMProvider works in the current system: Perfect! I can see that the providers have a `json` method. Let me fix the researcher to use the correct API: 
+```
+
+```
+Now let me fix the strategist file as well: 
+```
+
+```
+
+```
+
+```
+Now let me try running the v3.2 system again: I need to fix the attribute access. Let me check what the LLMResponse object actually contains: I see! The attribute is `json_obj`, not ``. Let me fix both files: Copilot has been working on this problem for a while. It can continue to iterate, or you can send a new message to refine your prompt.
+
+---
+
+_**User**_
+
+@agent Continue: "Continue to iterate?"
+
+---
+
+_**Assistant**_
+
+
+```
+
+```
+
+```
+
+```
+Now let me try running v3.2 again: There's an issue with the usage object. Let me check how it should be handled. The error suggests the usage object isn't a dict. Let me fix this: 
+```
+
+```
+
+```
+
+```
+Let me try running the system one more time: 
 
 ---
 
