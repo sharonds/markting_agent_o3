@@ -1,0 +1,10 @@
+objective: "Launch Beta"
+budget: 5000
+channels: ["LinkedIn", "Blog", "Email"]
+geos: ["EU"]
+timeline:
+  start: "2025-08-05"
+  end:   "2025-09-15"
+audience: "SMB founders in SaaS"
+site: "https://example.com"
+notes: "Focus on lead generation and early access signups."

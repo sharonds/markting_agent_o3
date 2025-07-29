@@ -1,0 +1,14 @@
+{
+  "type":"object",
+  "required":["facts","competitors","keywords","risks"],
+  "properties":{
+    "facts":{"type":"array","items":{"type":"object","required":["id","claim","source"],"properties":{
+      "id":{"type":"string"},"claim":{"type":"string"},"source":{"type":"string","format":"uri"}}}},
+    "competitors":{"type":"array","items":{"type":"object","required":["name","positioning","source"],"properties":{
+      "name":{"type":"string"},"positioning":{"type":"string"},"source":{"type":"string","format":"uri"}}}},
+    "keywords":{"type":"array","items":{"type":"object","required":["cluster","intent","queries"],"properties":{
+      "cluster":{"type":"string"},"intent":{"type":"string","enum":["awareness","consideration","transactional"]},
+      "queries":{"type":"array","items":{"type":"string"}}}}},
+    "risks":{"type":"array","items":{"type":"string"}}
+  }
+}

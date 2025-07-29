@@ -1,0 +1,16 @@
+{
+  "type":"object",
+  "required":["items"],
+  "properties":{
+    "items":{"type":"array","items":{"type":"object",
+      "required":["date","channel","title","pillar_id","intent","status"],
+      "properties":{
+        "date":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}$"},
+        "channel":{"type":"string"},
+        "title":{"type":"string"},
+        "pillar_id":{"type":"string"},
+        "intent":{"type":"string","enum":["awareness","consideration","transactional"]},
+        "status":{"type":"string","enum":["draft","ready","scheduled"]}
+      }}}
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Orchestrator",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/app/main.py",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "args": ["--goal", "Launch beta for EU SMB founders"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    }
+  ]
+}
