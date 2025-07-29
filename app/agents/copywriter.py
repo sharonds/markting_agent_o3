@@ -35,6 +35,13 @@ Sources: f_appcount
         usage=None
     else:
         role = open("prompts/roles/copywriter.md","r",encoding="utf-8").read()
+        # Handle facts that might not have 'id' field
+        facts_with_ids = []
+        for i, f in enumerate(evidence.get("facts", [])):
+            fact_id = f.get("id", f"facts[{i}]")
+            fact_text = f.get("fact", f.get("claim", ""))
+            facts_with_ids.append({"id": fact_id, "claim": fact_text})
+
         message = f"""{role}
 
 ContextPack:
@@ -44,14 +51,14 @@ Pillar:
 {json.dumps(pillar, indent=2)}
 
 Evidence Pack (IDs + claims):
-{json.dumps([{"id":f["id"], "claim": f["claim"]} for f in evidence.get("facts",[])], indent=2)}
+{json.dumps(facts_with_ids, indent=2)}
 
 Return plain text only. Replace generic terms like "our platform" with "{brand}". End with "Sources: fX, fY".
 """
         resp = provider.chat([{"role":"system","content":"You are an excellent marketing copywriter."},
                               {"role":"user","content": message}], temperature=0.7, max_tokens=300)
         draft = resp.text or ""
-        add_message(ctx['db'], ctx['run_id'], ctx['current_task_id'], "assistant", provider.name, resp.text, getattr(resp,"usage",None))
+        add_message(ctx['db'], ctx['run_id'], ctx['current_task_id'], "assistant", provider.name, resp.text, {"prompt_tokens": getattr(resp.usage, "prompt_tokens", 0), "completion_tokens": getattr(resp.usage, "completion_tokens", 0)} if resp.usage else None)
 
     banned = ctx['compass_meta'].get('guardrails',{}).get('banned_phrases',[])
     draft = re.sub(r"\bour platform\b", brand, draft, flags=re.I)

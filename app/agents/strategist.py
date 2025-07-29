@@ -37,7 +37,10 @@ def _offline_strategy(evidence, context_pack):
       ]}
     }
 
-def run(inputs, ctx) -> list[Artifact]:
+def run(params, ctx):
+    return _run_internal(params, ctx)
+
+def _run_internal(params, ctx):
     base = ctx['paths']['artifacts']
     provider = ctx['llm_router'].for_task('strategist')
     schema = load_schema("strategy_pack")
@@ -48,6 +51,45 @@ def run(inputs, ctx) -> list[Artifact]:
         obj = _offline_strategy(evidence, context_pack); usage=None
     else:
         role = open("prompts/roles/strategist.md","r",encoding="utf-8").read()
+        
+        # Create example structure to ensure AI follows the correct schema
+        example_structure = {
+            "icp": {
+                "segments": [{
+                    "name": "string",
+                    "jobs": ["array of strings"],
+                    "pains": ["array of strings"],
+                    "gains": ["array of strings"],
+                    "triggers": ["array of strings"],
+                    "qualifiers": ["array of strings"],
+                    "disqualifiers": ["array of strings"],
+                    "objections": ["array of strings"]
+                }]
+            },
+            "positioning": {
+                "category": "string",
+                "for": "string",
+                "who": "string", 
+                "our_product": "string",
+                "is_a": "string",
+                "unlike": "string",
+                "we": "string",
+                "rtbs": [{"text": "string", "evidence_ids": ["array"]}]
+            },
+            "messaging": {
+                "pillars": [
+                    {
+                        "id": "p1",
+                        "name": "string",
+                        "claims": ["array of strings"],
+                        "evidence_ids": ["array of evidence IDs"],
+                        "tones": ["array of strings"],
+                        "ctas": ["array of strings"]
+                    }
+                ]
+            }
+        }
+        
         message = f"""{role}
 
 ContextPack:
@@ -56,12 +98,21 @@ ContextPack:
 Evidence Pack (JSON):
 {json.dumps(evidence, indent=2)[:4000]}
 
-Return a single top-level JSON object matching schema 'strategy_pack'. No code fences. No wrapper keys.
+IMPORTANT: Return a JSON object that exactly matches this structure (replace example values with real content):
+{json.dumps(example_structure, indent=2)}
+
+Requirements:
+- Include ALL required fields shown in the example
+- Each messaging pillar MUST have an "id" field (p1, p2, p3, etc.)
+- Reference evidence IDs from the evidence pack in evidence_ids arrays
+- Use brand name from context_pack for "our_product"
+
+Return ONLY the JSON object. No code fences. No wrapper keys. No additional text.
 """
-        messages=[{"role":"system","content":"You are a rigorous strategist producing JSON outputs."},
+        messages=[{"role":"system","content":"You are a rigorous strategist producing JSON outputs that exactly match the required schema."},
                   {"role":"user","content": message}]
         try:
-            resp = provider.json(messages, schema, temperature=0.3, max_tokens=1500)
+            resp = provider.json(messages, schema, temperature=0.3, max_tokens=2500)
             obj = resp.json_obj
             usage = {"prompt_tokens": getattr(resp.usage, "prompt_tokens", 0), "completion_tokens": getattr(resp.usage, "completion_tokens", 0)} if resp.usage else None
             add_message(ctx['db'], ctx['run_id'], ctx['current_task_id'], "assistant", provider.name, resp.text, usage)
@@ -76,7 +127,18 @@ Return a single top-level JSON object matching schema 'strategy_pack'. No code f
     if 'positioning' not in obj:
         raise ValueError(f"Strategy pack missing required 'positioning' key. Got keys: {list(obj.keys())}")
     
-    validate_obj("strategy_pack", obj)
+    # Check for required messaging pillar structure and fix missing IDs
+    if 'messaging' in obj and 'pillars' in obj['messaging']:
+        for i, pillar in enumerate(obj['messaging']['pillars']):
+            if 'id' not in pillar:
+                print(f"WARNING: Pillar {i} missing 'id' field, adding default")
+                pillar['id'] = f"p{i+1}"
+    
+    try:
+        validate_obj("strategy_pack", obj)
+    except Exception as ve:
+        print(f"ERROR: Strategy pack validation failed: {ve}")
+        raise
 
     write_json(os.path.join(base,"strategy_pack.json"), obj)
     pos_text = f"# Positioning (One-Pager)\n\n**Category**: {obj['positioning'].get('category')}\n\n**Statement**: Unlike {obj['positioning'].get('unlike')}, {obj['positioning'].get('our_product')} helps {context_pack.get('audience','teams')} automate work quickly—connecting 8,000+ apps to turn repetitive tasks into reliable workflows (see evidence f_appcount)."

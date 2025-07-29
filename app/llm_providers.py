@@ -17,7 +17,13 @@ class BaseProvider:
         return LLMResponse(r.text, obj, r.usage)
 
 def safe_extract_json(text: str):
-    # First try to extract JSON from markdown code blocks
+    # First try to parse the entire text as JSON (for clean JSON responses)
+    try: 
+        return json.loads(text.strip())
+    except Exception: 
+        pass
+    
+    # Then try to extract JSON from markdown code blocks
     json_blocks = re.findall(r"```(?:json)?\s*\n(.*?)\n```", text, re.DOTALL)
     for block in json_blocks:
         try: 

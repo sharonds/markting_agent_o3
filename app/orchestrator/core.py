@@ -38,7 +38,8 @@ def _metrics(run_dir):
     pillars=(sp.get("messaging") or {}).get("pillars",[])
     pcount=len(pillars)
     intents=Counter(i.get("intent","") for i in cal.get("items",[]))
-    pid_set={p.get("id") for p in pillars}
+    # Handle missing 'id' fields by creating defaults
+    pid_set={p.get("id", f"p{i+1}") for i, p in enumerate(pillars)}
     bad_calendar=[i for i in cal.get("items",[]) if i.get("pillar_id") not in pid_set]
     return {
         "facts":facts,"competitors":comps,"keyword_clusters":kws,
@@ -51,11 +52,22 @@ def _gateA_report(run_dir):
     base = os.path.join(run_dir, "artifacts")
     ev = json.load(open(os.path.join(base,"evidence_pack.json"),"r",encoding="utf-8"))
     sp = json.load(open(os.path.join(base,"strategy_pack.json"),"r",encoding="utf-8"))
-    fact_ids = {f["id"] for f in ev.get("facts",[])}
+    # Handle facts that might not have 'id' field
+    facts = ev.get("facts", [])
+    fact_ids = set()
+    for i, f in enumerate(facts):
+        if "id" in f:
+            fact_ids.add(f["id"])
+        else:
+            # Create default ID for facts without ID
+            fact_ids.add(f"facts[{i}]")
+    
     pillars = (sp.get("messaging") or {}).get("pillars",[])
     report = []
-    for p in pillars:
-        row = {"pillar_id": p.get("id"), "name": p.get("name"), "evidence_ids": p.get("evidence_ids",[])}
+    for i, p in enumerate(pillars):
+        # Handle missing 'id' field by creating a default one
+        pillar_id = p.get("id", f"p{i+1}")
+        row = {"pillar_id": pillar_id, "name": p.get("name"), "evidence_ids": p.get("evidence_ids",[])}
         row["resolved"] = [fid for fid in row["evidence_ids"] if fid in fact_ids]
         row["missing"] = [fid for fid in row["evidence_ids"] if fid not in fact_ids]
         report.append(row)
