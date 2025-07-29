@@ -1,0 +1,178 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB SaaS Founders",
+        "jobs": [
+          "CEO",
+          "Founder",
+          "Product Manager"
+        ],
+        "pains": [
+          "Manual data entry across multiple tools",
+          "Time-consuming repetitive tasks",
+          "Limited development resources"
+        ],
+        "gains": [
+          "Streamlined workflows",
+          "Increased productivity",
+          "Cost-effective automation"
+        ],
+        "triggers": [
+          "Scaling operations",
+          "Launching new product features",
+          "Experiencing bottlenecks in processes"
+        ],
+        "qualifiers": [
+          "Uses multiple SaaS tools",
+          "Has a team of 5-50 employees",
+          "Based in EU or UK"
+        ],
+        "disqualifiers": [
+          "Large enterprise with custom IT solutions",
+          "Not using any cloud-based tools",
+          "Requires extensive coding for integrations"
+        ],
+        "objections": [
+          "We don't have time to set up automations",
+          "Our processes are too complex for a tool like this",
+          "We're worried about data security across integrations",
+          "It might be too expensive for our budget"
+        ]
+      },
+      {
+        "name": "SMB Marketing Leads",
+        "jobs": [
+          "Marketing Manager",
+          "Digital Marketing Specialist",
+          "Growth Hacker"
+        ],
+        "pains": [
+          "Disconnected marketing tools",
+          "Inefficient lead management",
+          "Time-consuming reporting processes"
+        ],
+        "gains": [
+          "Automated marketing workflows",
+          "Seamless data flow between tools",
+          "More time for strategic activities"
+        ],
+        "triggers": [
+          "Implementing new marketing tech stack",
+          "Struggling with manual data transfer",
+          "Missing opportunities due to slow processes"
+        ],
+        "qualifiers": [
+          "Uses multiple marketing SaaS tools",
+          "Manages digital marketing campaigns",
+          "Works in a team of 2-10 marketers"
+        ],
+        "disqualifiers": [
+          "Relies solely on traditional marketing methods",
+          "Has a dedicated development team for integrations",
+          "Uses an all-in-one marketing suite exclusively"
+        ],
+        "objections": [
+          "We already use native integrations in our tools",
+          "It might be too complicated for our non-technical team",
+          "We're concerned about data accuracy in automated processes",
+          "Our current manual process works fine"
+        ]
+      }
+    ]
+  },
+  "positioning": {
+    "category": "Workflow Automation Platform",
+    "for": "SMB founders and marketing leads in the EU and UK",
+    "who": "need to connect and automate their business tools without coding",
+    "our_product": "Zapier",
+    "is_a": "user-friendly automation platform",
+    "unlike": "complex integration tools or limited native app connections",
+    "we": "empower businesses to create efficient workflows across thousands of apps without any coding skills",
+    "rtbs": [
+      {
+        "text": "Integrate with over 3,000 apps to automate workflows without coding",
+        "evidence_ids": [
+          "facts[0]"
+        ]
+      },
+      {
+        "text": "Trusted by over 4 million users worldwide, primarily small to medium-sized businesses",
+        "evidence_ids": [
+          "facts[1]"
+        ]
+      },
+      {
+        "text": "Offer a free tier for users to start creating simple automations",
+        "evidence_ids": [
+          "facts[2]"
+        ]
+      }
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "id": "p1",
+        "name": "Effortless Integration",
+        "claims": [
+          "Connect your favourite apps without coding",
+          "Automate workflows across 3,000+ tools",
+          "Save time and reduce errors with seamless data flow"
+        ],
+        "evidence_ids": [
+          "facts[0]"
+        ],
+        "tones": [
+          "friendly",
+          "practical"
+        ],
+        "ctas": [
+          "Explore our app integrations",
+          "Start automating for free"
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Proven SMB Solution",
+        "claims": [
+          "Join 4 million+ users streamlining their business processes",
+          "Tailored for small and medium-sized business needs",
+          "Scale your operations without scaling your team"
+        ],
+        "evidence_ids": [
+          "facts[1]",
+          "facts[3]"
+        ],
+        "tones": [
+          "clear",
+          "practical"
+        ],
+        "ctas": [
+          "See how SMBs use Zapier",
+          "Start your free trial today"
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "Accessible Automation",
+        "claims": [
+          "Begin automating with our free tier",
+          "No coding skills required to create powerful workflows",
+          "Gradually expand your automation as your business grows"
+        ],
+        "evidence_ids": [
+          "facts[2]"
+        ],
+        "tones": [
+          "friendly",
+          "clear"
+        ],
+        "ctas": [
+          "Try Zapier for free",
+          "Upgrade anytime as you grow"
+        ]
+      }
+    ]
+  }
+}

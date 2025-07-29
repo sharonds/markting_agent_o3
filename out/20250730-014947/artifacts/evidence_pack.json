@@ -1,0 +1,61 @@
+{
+  "facts": [
+    {
+      "fact": "Zapier integrates with over 3,000 apps, allowing users to automate workflows without coding.",
+      "source": "https://zapier.com/apps/integrations",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier has been recognized as a leading automation tool for small to medium-sized businesses.",
+      "source": "https://www.g2.com/products/zapier/reviews",
+      "geo": "UK",
+      "date": "2023-09-15"
+    },
+    {
+      "fact": "Zapier offers a free plan that allows users to create simple automations with limited features.",
+      "source": "https://zapier.com/pricing",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier's user base has grown significantly, with millions of users automating their tasks.",
+      "source": "https://zapier.com/blog/zapier-growth",
+      "geo": "UK",
+      "date": "2023-08-20"
+    }
+  ],
+  "competitors": [
+    "Integromat",
+    "Automate.io",
+    "Microsoft Power Automate",
+    "IFTTT"
+  ],
+  "keywords": [
+    {
+      "cluster": "workflow automation",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "SaaS integrations",
+      "intent": "consideration"
+    },
+    {
+      "cluster": "business productivity tools",
+      "intent": "transactional"
+    },
+    {
+      "cluster": "no-code automation",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "Zapier pricing",
+      "intent": "transactional"
+    }
+  ],
+  "risks": [
+    "Potential market saturation with similar automation tools.",
+    "Changes in user preferences towards more customizable solutions.",
+    "Regulatory changes in data privacy affecting integrations."
+  ]
+}

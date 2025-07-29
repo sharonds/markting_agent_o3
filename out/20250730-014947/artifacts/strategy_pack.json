@@ -1,0 +1,228 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB Founders",
+        "jobs": [
+          "CEO",
+          "Founder",
+          "Entrepreneur"
+        ],
+        "pains": [
+          "Time-consuming manual tasks",
+          "Difficulty managing multiple tools",
+          "Limited resources for custom integrations"
+        ],
+        "gains": [
+          "Increased productivity",
+          "Streamlined workflows",
+          "Cost-effective automation"
+        ],
+        "triggers": [
+          "Scaling business operations",
+          "Frustration with repetitive tasks",
+          "Need for better tool integration"
+        ],
+        "qualifiers": [
+          "1-50 employees",
+          "Uses multiple SaaS tools",
+          "Values efficiency and automation"
+        ],
+        "disqualifiers": [
+          "Large enterprise",
+          "Requires highly complex, custom integrations",
+          "Prefers in-house development for all solutions"
+        ],
+        "objections": [
+          "We're too small to need automation",
+          "It's too complicated to set up",
+          "We can't afford another tool",
+          "We're worried about data security"
+        ]
+      },
+      {
+        "name": "SaaS Operations Leads",
+        "jobs": [
+          "Operations Manager",
+          "Head of Operations",
+          "Operations Director"
+        ],
+        "pains": [
+          "Inefficient data transfer between systems",
+          "Lack of standardized processes",
+          "Time spent on repetitive tasks"
+        ],
+        "gains": [
+          "Improved operational efficiency",
+          "Better data consistency across tools",
+          "More time for strategic initiatives"
+        ],
+        "triggers": [
+          "Increasing operational complexity",
+          "Need for better reporting and analytics",
+          "Pressure to reduce operational costs"
+        ],
+        "qualifiers": [
+          "Works in SaaS company",
+          "Manages multiple operational tools",
+          "Seeks to optimize workflows"
+        ],
+        "disqualifiers": [
+          "Fully satisfied with current automation setup",
+          "Requires only enterprise-level solutions",
+          "Has a dedicated development team for integrations"
+        ],
+        "objections": [
+          "Our current tools already integrate well",
+          "We need more customization than Zapier offers",
+          "It might disrupt our existing workflows",
+          "We're concerned about employee adoption"
+        ]
+      },
+      {
+        "name": "Marketing Leads in Services Firms",
+        "jobs": [
+          "Marketing Manager",
+          "Digital Marketing Lead",
+          "Marketing Director"
+        ],
+        "pains": [
+          "Difficulty managing multi-channel campaigns",
+          "Inefficient lead management processes",
+          "Time-consuming reporting and analytics"
+        ],
+        "gains": [
+          "Automated marketing workflows",
+          "Seamless integration of marketing tools",
+          "Improved campaign efficiency and ROI"
+        ],
+        "triggers": [
+          "Need for better marketing attribution",
+          "Desire to scale marketing efforts",
+          "Frustration with manual data entry"
+        ],
+        "qualifiers": [
+          "Uses multiple marketing tools",
+          "Manages diverse marketing channels",
+          "Seeks to automate repetitive tasks"
+        ],
+        "disqualifiers": [
+          "Relies solely on agency services",
+          "Has a fully integrated marketing stack",
+          "Requires only specialized marketing automation tools"
+        ],
+        "objections": [
+          "We already use a marketing automation platform",
+          "It might not integrate with all our specific tools",
+          "We're not sure if it's worth the investment",
+          "Our team might find it difficult to use"
+        ]
+      }
+    ]
+  },
+  "positioning": {
+    "category": "Workflow Automation Platform",
+    "for": "SMB founders and ops/marketing leads at SaaS and services firms",
+    "who": "struggle with inefficient, manual processes across multiple business tools",
+    "our_product": "Zapier",
+    "is_a": "user-friendly automation platform",
+    "unlike": "complex, code-heavy integration solutions or limited single-vendor tools",
+    "we": "empower businesses to create efficient, custom workflows without coding, connecting over 3,000 apps seamlessly",
+    "rtbs": [
+      {
+        "text": "Integrates with over 3,000 apps, allowing for extensive customization of workflows",
+        "evidence_ids": [
+          "facts[0]"
+        ]
+      },
+      {
+        "text": "Recognized as a leading automation tool for small to medium-sized businesses",
+        "evidence_ids": [
+          "facts[1]"
+        ]
+      },
+      {
+        "text": "Offers a free plan for users to start automating tasks without initial investment",
+        "evidence_ids": [
+          "facts[2]"
+        ]
+      },
+      {
+        "text": "Trusted by millions of users to automate their business processes",
+        "evidence_ids": [
+          "facts[3]"
+        ]
+      }
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "id": "p1",
+        "name": "Effortless Integration",
+        "claims": [
+          "Connect and automate your favorite apps without coding",
+          "Over 3,000 app integrations at your fingertips",
+          "Create custom workflows tailored to your business needs"
+        ],
+        "evidence_ids": [
+          "facts[0]",
+          "facts[1]"
+        ],
+        "tones": [
+          "empowering",
+          "practical",
+          "user-friendly"
+        ],
+        "ctas": [
+          "Explore our app integrations",
+          "Start automating for free"
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Boost Productivity",
+        "claims": [
+          "Save time by automating repetitive tasks",
+          "Streamline workflows across departments",
+          "Focus on strategic work, not manual processes"
+        ],
+        "evidence_ids": [
+          "facts[1]",
+          "facts[3]"
+        ],
+        "tones": [
+          "efficient",
+          "motivational",
+          "results-oriented"
+        ],
+        "ctas": [
+          "Calculate your time savings",
+          "See productivity use cases"
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "Accessible Automation",
+        "claims": [
+          "Start automating with our free plan",
+          "No technical skills required to create powerful workflows",
+          "Scale your automation as your business grows"
+        ],
+        "evidence_ids": [
+          "facts[2]",
+          "facts[3]"
+        ],
+        "tones": [
+          "approachable",
+          "encouraging",
+          "supportive"
+        ],
+        "ctas": [
+          "Try Zapier for free",
+          "Watch our quick-start tutorial"
+        ]
+      }
+    ]
+  }
+}

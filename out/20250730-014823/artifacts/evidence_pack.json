@@ -1,0 +1,69 @@
+{
+  "facts": [
+    {
+      "fact": "Zapier integrates with over 3,000 apps, allowing users to automate workflows without coding.",
+      "source_url": "https://zapier.com/apps/integrations",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier's user base includes over 4 million users worldwide, primarily small to medium-sized businesses.",
+      "source_url": "https://zapier.com/blog/2023/04/zapier-user-growth",
+      "geo": "UK",
+      "date": "2023-04-15"
+    },
+    {
+      "fact": "Zapier offers a free tier that allows users to create simple automations with limited features.",
+      "source_url": "https://zapier.com/pricing",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier was founded in 2011 and has raised over $1.3 billion in funding.",
+      "source_url": "https://techcrunch.com/2021/10/05/zapier-funding/",
+      "geo": "UK",
+      "date": "2021-10-05"
+    }
+  ],
+  "competitors": [
+    {
+      "name": "Integromat",
+      "url": "https://www.integromat.com"
+    },
+    {
+      "name": "Automate.io",
+      "url": "https://automate.io"
+    },
+    {
+      "name": "Microsoft Power Automate",
+      "url": "https://flow.microsoft.com"
+    }
+  ],
+  "keywords": [
+    {
+      "cluster": "Workflow Automation",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "SaaS Integrations",
+      "intent": "consideration"
+    },
+    {
+      "cluster": "Business Automation Tools",
+      "intent": "transactional"
+    },
+    {
+      "cluster": "No-Code Solutions",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "Zapier Pricing",
+      "intent": "transactional"
+    }
+  ],
+  "risks": [
+    "Market saturation with similar automation tools may dilute brand visibility.",
+    "Potential changes in data privacy regulations in the EU and UK could impact operations.",
+    "Dependence on third-party app integrations may lead to service disruptions."
+  ]
+}

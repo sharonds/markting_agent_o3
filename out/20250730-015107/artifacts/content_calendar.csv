@@ -1,0 +1,31 @@
+date,channel,title,pillar_id,intent,status,format,cta
+2025-08-05,LinkedIn,Effortless Integration: quick win,p1,awareness,draft,post,Explore our app integrations
+2025-08-07,LinkedIn,Time-Saving Automation: quick win,p2,consideration,draft,post,Explore our app integrations
+2025-08-09,LinkedIn,Scalable for SMBs: quick win,p3,transactional,draft,post,Explore our app integrations
+2025-08-05,LinkedIn,LinkedIn post #1,p1,awareness,draft,post,Explore our app integrations
+2025-08-07,LinkedIn,LinkedIn post #2,p2,transactional,draft,post,Explore our app integrations
+2025-08-09,LinkedIn,LinkedIn post #3,p3,consideration,draft,post,Explore our app integrations
+2025-08-11,LinkedIn,LinkedIn post #4,p1,awareness,draft,post,Explore our app integrations
+2025-08-13,LinkedIn,LinkedIn post #5,p2,transactional,draft,post,Explore our app integrations
+2025-08-15,LinkedIn,LinkedIn post #6,p3,consideration,draft,post,Explore our app integrations
+2025-08-17,LinkedIn,LinkedIn post #7,p1,awareness,draft,post,Explore our app integrations
+2025-08-19,LinkedIn,LinkedIn post #8,p2,transactional,draft,post,Explore our app integrations
+2025-08-21,LinkedIn,LinkedIn post #9,p3,consideration,draft,post,Explore our app integrations
+2025-08-23,LinkedIn,LinkedIn post #10,p1,awareness,draft,post,Explore our app integrations
+2025-08-25,LinkedIn,LinkedIn post #11,p2,transactional,draft,post,Explore our app integrations
+2025-08-27,LinkedIn,LinkedIn post #12,p3,consideration,draft,post,Explore our app integrations
+2025-08-29,LinkedIn,LinkedIn post #13,p1,awareness,draft,post,Explore our app integrations
+2025-08-31,LinkedIn,LinkedIn post #14,p2,transactional,draft,post,Explore our app integrations
+2025-09-02,LinkedIn,LinkedIn post #15,p3,consideration,draft,post,Explore our app integrations
+2025-08-05,Blog,Blog post #1,p1,awareness,draft,article,Explore our app integrations
+2025-08-07,Blog,Blog post #2,p2,transactional,draft,article,Explore our app integrations
+2025-08-09,Blog,Blog post #3,p3,consideration,draft,article,Explore our app integrations
+2025-08-11,Blog,Blog post #4,p1,awareness,draft,article,Explore our app integrations
+2025-08-13,Blog,Blog post #5,p2,transactional,draft,article,Explore our app integrations
+2025-08-15,Blog,Blog post #6,p3,consideration,draft,article,Explore our app integrations
+2025-08-05,Email,Email post #1,p1,awareness,draft,campaign,Explore our app integrations
+2025-08-07,Email,Email post #2,p2,transactional,draft,campaign,Explore our app integrations
+2025-08-09,Email,Email post #3,p3,consideration,draft,campaign,Explore our app integrations
+2025-08-11,Email,Email post #4,p1,awareness,draft,campaign,Explore our app integrations
+2025-08-13,Email,Email post #5,p2,transactional,draft,campaign,Explore our app integrations
+2025-08-15,Email,Email post #6,p3,consideration,draft,campaign,Explore our app integrations
