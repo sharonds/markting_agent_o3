@@ -1,9 +1,11 @@
+
 import os, json, re
 from app.tools.exporters import write_text, write_json
 from app.brand_guard import check_text
 from app.state import Artifact
 from app.io import read_json
-from app.llm_providers import LLMRouter, safe_extract_json
+from app.llm_providers import LLMRouter
+from app.db import add_message
 
 def _ensure_sources(post_text, evidence_ids):
     if re.search(r"^Sources:\s*f", post_text, flags=re.I|re.M):
@@ -18,7 +20,9 @@ def run(inputs, ctx) -> list[Artifact]:
     messaging = strategy.get("messaging", {})
     pillar = next(iter(messaging.get("pillars", [])), {"id":"p1","name":"Ease of use"})
     provider = ctx['llm_router'].for_task('copywriter')
-    brand = ctx['compass_meta'].get('brand','Zapier')
+    brand = ctx['compass_meta'].get('brand','Brand')
+    context_pack = ctx.get("context_pack", {})
+    locale = context_pack.get("locale","en-GB")
 
     if provider.name == "offline":
         draft = f"""# LinkedIn Post Draft
@@ -28,12 +32,13 @@ CTA: Try it free.
 
 Sources: f_appcount
 """
-        usage = {}
+        usage=None
     else:
         role = open("prompts/roles/copywriter.md","r",encoding="utf-8").read()
         message = f"""{role}
 
-Brand: {brand}
+ContextPack:
+{json.dumps(context_pack, indent=2)}
 
 Pillar:
 {json.dumps(pillar, indent=2)}
@@ -46,6 +51,7 @@ Return plain text only. Replace generic terms like "our platform" with "{brand}"
         resp = provider.chat([{"role":"system","content":"You are an excellent marketing copywriter."},
                               {"role":"user","content": message}], temperature=0.7, max_tokens=300)
         draft = resp.text or ""
+        add_message(ctx['db'], ctx['run_id'], ctx['current_task_id'], "assistant", provider.name, resp.text, getattr(resp,"usage",None))
 
     banned = ctx['compass_meta'].get('guardrails',{}).get('banned_phrases',[])
     draft = re.sub(r"\bour platform\b", brand, draft, flags=re.I)
@@ -56,8 +62,13 @@ Return plain text only. Replace generic terms like "our platform" with "{brand}"
     out_md = os.path.join(base, post_filename)
     write_text(out_md, draft + ("" if ok else f"\n> NOTE: Banned phrases detected: {hits}\n"))
 
+    gateB = {"locale": locale, "banned_hits": hits, "has_sources": bool(re.search(r"^Sources:", draft, flags=re.I|re.M))}
+    gateB["numeric_claims_without_sources"] = bool(re.search(r"\d", draft) and not gateB["has_sources"])
+    write_json(os.path.join(base, "gateB_report.json"), gateB)
+
     policy = {"violations": [], "critical": False}
     write_json(os.path.join(base, "policy_check.json"), policy)
 
     return [Artifact(path=out_md, kind="md", summary=f"LinkedIn post draft ({post_filename})"),
-            Artifact(path=os.path.join(base, "policy_check.json"), kind="json", summary="Policy check result")]
+            Artifact(path=os.path.join(base, "policy_check.json"), kind="json", summary="Policy check result"),
+            Artifact(path=os.path.join(base, "gateB_report.json"), kind="json", summary="Gate B report")]

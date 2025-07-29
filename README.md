@@ -1,19 +1,28 @@
-<!-- v3.1.2 addendum (generated 2025-07-29T21:44:26.200696Z) -->
-## Post filename & one-command PR
 
-**Control the LinkedIn post filename** via env or Makefile:
+# v3.2 PR bundle (generated 2025-07-29T21:55:50.087205Z)
+
+Includes:
+- ContextPack (locale/audience/geos/channels/timeline/ctas) → injected into every agent
+- Schemas extended: evidence facts (geo/date), ICP objections, calendar (format/cta)
+- Planner: rule-first slots from timeline/channels with pillar/intent coverage
+- Gate A/B reports: evidence coverage; locale/CTA/numeric checks
+- Cost tracking (token-based; set env rates COST_* to enable EUR totals)
+- Tests for context pack & reports
+
+Apply:
 ```bash
-export POST_FILENAME=post_001.md   # default is post_linkedin.md
-make run GOAL="Launch beta for EU SMB founders"
-# outputs: out/<run-id>/artifacts/post_001.md
+git checkout -b chore/v3.2
+unzip -o v3.2-pr-bundle.zip -d .
+git add -A
+git commit -m "v3.2: ContextPack, planner, gate reports, costs"
+git push -u origin chore/v3.2
+# open PR to main
 ```
 
-**Open a branch, run, commit /out, and push a PR** (requires `gh` GitHub CLI authenticated):
+Env for costs (optional):
 ```bash
-make pr GOAL="Launch beta for EU SMB founders" BRANCH="chore/zapier-eu-beta" POST_FILENAME=post_001.md
+export COST_OPENAI_INPUT_PER1K=0.00
+export COST_OPENAI_OUTPUT_PER1K=0.00
+export COST_ANTHROPIC_INPUT_PER1K=0.00
+export COST_ANTHROPIC_OUTPUT_PER1K=0.00
 ```
-This will:
-1. create/switch to `BRANCH`,
-2. run the orchestrator with `AUTO_APPROVE=1`,
-3. commit `out/` artifacts,
-4. push and open a PR (if `gh` is installed).

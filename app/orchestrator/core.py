@@ -1,3 +1,4 @@
+
 import os, time, json
 from collections import Counter
 from app.state import ProjectState, Task, Artifact
@@ -5,6 +6,8 @@ from app.logs import EventLogger
 from app.agents import researcher, strategist, content_planner, copywriter
 from app.db import connect, start_run as db_start_run, end_run as db_end_run, add_task, complete_task, add_artifact, add_gate, resolve_gate
 from app.llm_providers import LLMRouter
+from app.context_pack import build_context_pack, write_context_pack
+from app.costs import estimate
 
 AGENTS = {
     "researcher": researcher.run,
@@ -16,7 +19,7 @@ AGENTS = {
 PIPELINE = [
     ("researcher", "Compile research/evidence pack"),
     ("strategist", "Draft ICP + positioning + messaging"),
-    ("content_planner", "Build 7–10 item content calendar"),
+    ("content_planner", "Build content calendar from timeline/channels"),
     ("copywriter", "Draft first LinkedIn post"),
 ]
 
@@ -44,6 +47,32 @@ def _metrics(run_dir):
         "calendar_pillar_mismatches":len(bad_calendar)
     }
 
+def _gateA_report(run_dir):
+    base = os.path.join(run_dir, "artifacts")
+    ev = json.load(open(os.path.join(base,"evidence_pack.json"),"r",encoding="utf-8"))
+    sp = json.load(open(os.path.join(base,"strategy_pack.json"),"r",encoding="utf-8"))
+    fact_ids = {f["id"] for f in ev.get("facts",[])}
+    pillars = (sp.get("messaging") or {}).get("pillars",[])
+    report = []
+    for p in pillars:
+        row = {"pillar_id": p.get("id"), "name": p.get("name"), "evidence_ids": p.get("evidence_ids",[])}
+        row["resolved"] = [fid for fid in row["evidence_ids"] if fid in fact_ids]
+        row["missing"] = [fid for fid in row["evidence_ids"] if fid not in fact_ids]
+        report.append(row)
+    out = {"coverage": report, "missing_total": sum(len(r["missing"]) for r in report)}
+    json.dump(out, open(os.path.join(base,"gateA_report.json"),"w",encoding="utf-8"), indent=2)
+    return out
+
+def _sum_costs(db):
+    try:
+        c = db.execute("select model, coalesce(usage_prompt,0), coalesce(usage_completion,0) from messages")
+    except Exception:
+        return 0.0
+    total_eur = 0.0
+    for model, pin, pout in c.fetchall():
+        total_eur += estimate(model, {"prompt_tokens": pin, "completion_tokens": pout})
+    return total_eur
+
 def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> ProjectState:
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
@@ -57,6 +86,9 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     db_start_run(db, os.path.basename(run_dir), state.intake.get("objective",""), manifest.get("budget_eur", 0), model_info=manifest)
 
     router = LLMRouter()
+    context_pack = build_context_pack(state.compass_meta, state.intake)
+    write_context_pack(os.path.join(artifacts_dir,"context_pack.json"), context_pack)
+
     ctx = {
         "compass_meta": state.compass_meta,
         "compass_body": state.compass_body,
@@ -65,7 +97,8 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         "llm_router": router,
         "db": db,
         "run_id": os.path.basename(run_dir),
-        "current_task_id": None
+        "current_task_id": None,
+        "context_pack": context_pack
     }
 
     for role, goal in PIPELINE:
@@ -87,8 +120,9 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             if role == "strategist":
                 gate_summary = "Review ICP + Positioning + Messaging (Gate A)"
                 add_gate(db, os.path.basename(run_dir), task.id, "GATE_A_POSITIONING", gate_summary)
+                rep = _gateA_report(run_dir)
                 with open(os.path.join(run_dir, "pending_gate.json"), "w", encoding="utf-8") as f:
-                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id}, f, indent=2)
+                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id, "report": rep}, f, indent=2)
                 log.event("gate_waiting", gate="GATE_A_POSITIONING")
                 if os.getenv("AUTO_APPROVE","0") != "1":
                     input(">> Gate A waiting. Press Enter to approve...")
@@ -126,7 +160,9 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         f.write("## Health metrics\n")
         for k,v in m.items():
             f.write(f"- {k}: {v}\n")
+        spent = _sum_costs(db)
+        f.write(f"\n## Cost\n- estimated_spend_eur: {spent:.4f}\n")
 
-    log.event("run_completed")
     db_end_run(db, os.path.basename(run_dir), "completed")
+    log.event("run_completed", spent_eur=float(spent))
     return state

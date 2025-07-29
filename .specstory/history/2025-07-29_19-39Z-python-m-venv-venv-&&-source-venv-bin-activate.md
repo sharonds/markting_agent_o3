@@ -2056,7 +2056,115 @@ git push -u origin chore/tiny-pr-v3.1.1
 
 _**Assistant**_
 
+I'll help you create the new branch and apply the tiny PR v3.1.1 updates. Let me execute these commands step by step: Perfect! I've successfully created the tiny PR v3.1.1 branch and pushed it to GitHub. Let me check what files were added to see what changes we're introducing: ## ✅ Tiny PR v3.1.1 Successfully Created
 
+**What was added:**
+
+1. **Makefile** - Development helpers with useful commands:
+   - `make setup` - Install dependencies 
+   - `make run` - Run the agents with default goal
+   - `make test` - Run unit tests
+   - Variables for customization (PY, GOAL, RUN_DIR)
+
+2. **`README-POST-NOTE.md`** - Documentation for new POST_FILENAME feature
+
+3. **Updated copywriter.py** - Support for custom post filenames via POST_FILENAME environment variable
+
+**Branch Status:**
+- ✅ Branch `chore/tiny-pr-v3.1.1` created
+- ✅ Changes committed: "tiny-pr: POST_FILENAME support + Makefile helpers"
+- ✅ 4 files changed (114 insertions, 41 deletions)
+- ✅ Pushed to GitHub
+
+**Next Step - Create PR:**
+You can now create a pull request by visiting:
+**https://github.com/sharonds/markting_agent_o3/pull/new/chore/tiny-pr-v3.1.1**
+
+This tiny PR adds convenient development helpers and customizable post naming - perfect incremental improvements for the marketing agents system!
+
+---
+
+_**User**_
+
+# from your repo root
+git checkout -b chore/tiny-pr-v3.1.2
+
+# unzip into the repo root (preserve paths like app/, .github/, tools/, Makefile)
+unzip -o ~/Downloads/tiny-pr-v3.1.2.zip -d .
+
+git add -A
+git commit -m "tiny-pr: make pr target + POST_FILENAME docs + GH Action input"
+git push -u origin chore/tiny-pr-v3.1.2
+# open a PR to main on GitHub
+
+---
+
+_**Assistant**_
+
+I'll help you create the new branch and apply the tiny PR v3.1.2 updates. Let me execute these commands step by step: Perfect! Let me check what new features were added in this tiny PR: ## ✅ Tiny PR v3.1.2 Successfully Created
+
+**What was added:**
+
+1. **Enhanced Makefile** - New `make pr` target:
+   - `make pr` - Automated PR creation workflow
+   - Supports custom GOAL, BRANCH, and POST_FILENAME variables
+   - Integrates with the new `pr.sh` script
+
+2. **`pr.sh`** - Automated PR creation script:
+   - Creates branch with timestamp
+   - Runs orchestrator with AUTO_APPROVE=1
+   - Supports custom post filenames
+   - Sets up proper environment variables
+   - Configurable LLM providers
+
+3. **Enhanced GitHub Actions** - Updated workflow with inputs:
+   - `goal` input for custom orchestrator goals
+   - `post_filename` input for custom LinkedIn post filenames
+   - Better workflow dispatch configuration
+
+4. **Updated `README.md`** - Enhanced documentation:
+   - POST_FILENAME usage examples
+   - `make pr` command examples
+   - Better development workflow guidance
+
+**Branch Status:**
+- ✅ Branch `chore/tiny-pr-v3.1.2` created
+- ✅ Changes committed: "tiny-pr: make pr target + POST_FILENAME docs + GH Action input"
+- ✅ 4 files changed (67 insertions, 30 deletions)
+- ✅ Pushed to GitHub
+
+**Key Features Added:**
+- 🎯 **Automated PR Workflow**: `make pr` creates branch + runs agents + prepares for PR
+- 📝 **Custom Post Names**: Control LinkedIn post filenames via POST_FILENAME
+- 🚀 **Enhanced CI/CD**: GitHub Actions now accept custom inputs
+- 📚 **Better Documentation**: Clear examples and usage patterns
+
+**Next Step - Create PR:**
+You can now create a pull request by visiting:
+**https://github.com/sharonds/markting_agent_o3/pull/new/chore/tiny-pr-v3.1.2**
+
+This tiny PR adds powerful automation and customization features for streamlined development workflows!
+
+---
+
+_**User**_
+
+# from your repo root
+git checkout -b chore/v3.2
+
+# unzip into the repo root (preserve paths like app/, prompts/, schemas/, tests/)
+unzip -o ~/Downloads/v3.2-pr-bundle.zip -d .
+
+git add -A
+git commit -m "v3.2: ContextPack, planner, gate reports, costs"
+git push -u origin chore/v3.2
+# open a PR to main on GitHub
+
+---
+
+_**Assistant**_
+
+I'll help you create the new branch and apply the v3.2 updates. Let me execute these commands step by step: 
 
 ---
 
