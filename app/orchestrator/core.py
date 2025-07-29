@@ -38,8 +38,7 @@ def _metrics(run_dir):
     pillars=(sp.get("messaging") or {}).get("pillars",[])
     pcount=len(pillars)
     intents=Counter(i.get("intent","") for i in cal.get("items",[]))
-    # Handle missing 'id' fields by creating defaults
-    pid_set={p.get("id", f"p{i+1}") for i, p in enumerate(pillars)}
+    pid_set={p.get("id") for p in pillars}
     bad_calendar=[i for i in cal.get("items",[]) if i.get("pillar_id") not in pid_set]
     return {
         "facts":facts,"competitors":comps,"keyword_clusters":kws,
@@ -47,33 +46,6 @@ def _metrics(run_dir):
         "calendar_items":len(cal.get("items",[])),"intent_counts":dict(intents),
         "calendar_pillar_mismatches":len(bad_calendar)
     }
-
-def _gateA_report(run_dir):
-    base = os.path.join(run_dir, "artifacts")
-    ev = json.load(open(os.path.join(base,"evidence_pack.json"),"r",encoding="utf-8"))
-    sp = json.load(open(os.path.join(base,"strategy_pack.json"),"r",encoding="utf-8"))
-    # Handle facts that might not have 'id' field
-    facts = ev.get("facts", [])
-    fact_ids = set()
-    for i, f in enumerate(facts):
-        if "id" in f:
-            fact_ids.add(f["id"])
-        else:
-            # Create default ID for facts without ID
-            fact_ids.add(f"facts[{i}]")
-    
-    pillars = (sp.get("messaging") or {}).get("pillars",[])
-    report = []
-    for i, p in enumerate(pillars):
-        # Handle missing 'id' field by creating a default one
-        pillar_id = p.get("id", f"p{i+1}")
-        row = {"pillar_id": pillar_id, "name": p.get("name"), "evidence_ids": p.get("evidence_ids",[])}
-        row["resolved"] = [fid for fid in row["evidence_ids"] if fid in fact_ids]
-        row["missing"] = [fid for fid in row["evidence_ids"] if fid not in fact_ids]
-        report.append(row)
-    out = {"coverage": report, "missing_total": sum(len(r["missing"]) for r in report)}
-    json.dump(out, open(os.path.join(base,"gateA_report.json"),"w",encoding="utf-8"), indent=2)
-    return out
 
 def _sum_costs(db):
     try:
@@ -113,6 +85,9 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         "context_pack": context_pack
     }
 
+    budget_eur = manifest.get("budget_eur", 0.0)
+
+    aborted = False
     for role, goal in PIPELINE:
         task = Task(id=f"{int(time.time())}-{role}", role=role, goal=goal)
         state.tasks.append(task)
@@ -129,12 +104,17 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             complete_task(db, task.id, "done")
             log.event("task_completed", role=role, task_id=task.id, artifacts=[a.path for a in arts])
 
+            spent = _sum_costs(db)
+            if budget_eur and spent > budget_eur:
+                log.event("budget_exceeded", spent_eur=float(spent), budget_eur=float(budget_eur), role=role)
+                aborted = True
+                break
+
             if role == "strategist":
                 gate_summary = "Review ICP + Positioning + Messaging (Gate A)"
                 add_gate(db, os.path.basename(run_dir), task.id, "GATE_A_POSITIONING", gate_summary)
-                rep = _gateA_report(run_dir)
                 with open(os.path.join(run_dir, "pending_gate.json"), "w", encoding="utf-8") as f:
-                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id, "report": rep}, f, indent=2)
+                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id}, f, indent=2)
                 log.event("gate_waiting", gate="GATE_A_POSITIONING")
                 if os.getenv("AUTO_APPROVE","0") != "1":
                     input(">> Gate A waiting. Press Enter to approve...")
@@ -174,7 +154,10 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             f.write(f"- {k}: {v}\n")
         spent = _sum_costs(db)
         f.write(f"\n## Cost\n- estimated_spend_eur: {spent:.4f}\n")
+        if aborted:
+            f.write(f"- status: aborted_due_to_budget (budget_eur={budget_eur})\n")
 
-    db_end_run(db, os.path.basename(run_dir), "completed")
-    log.event("run_completed", spent_eur=float(spent))
+    status = "aborted" if aborted else "completed"
+    db_end_run(db, os.path.basename(run_dir), status)
+    log.event("run_completed", spent_eur=float(spent), status=status)
     return state
