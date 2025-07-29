@@ -1,0 +1,14 @@
+{"ts": "2025-07-29T21:30:02.060062Z", "event": "run_started", "run_id": "20250729-233002", "goal": "Launch beta for EU SMB founders"}
+{"ts": "2025-07-29T21:30:02.064339Z", "event": "task_started", "role": "researcher", "goal": "Compile research/evidence pack", "task_id": "1753824602-researcher"}
+{"ts": "2025-07-29T21:30:15.032811Z", "event": "task_completed", "role": "researcher", "task_id": "1753824602-researcher", "artifacts": ["out/20250729-233002/artifacts/evidence_pack.json"]}
+{"ts": "2025-07-29T21:30:15.033195Z", "event": "task_started", "role": "strategist", "goal": "Draft ICP + positioning + messaging", "task_id": "1753824615-strategist"}
+{"ts": "2025-07-29T21:30:28.128088Z", "event": "task_completed", "role": "strategist", "task_id": "1753824615-strategist", "artifacts": ["out/20250729-233002/artifacts/strategy_pack.json", "out/20250729-233002/artifacts/positioning.md"]}
+{"ts": "2025-07-29T21:30:28.130269Z", "event": "gate_waiting", "gate": "GATE_A_POSITIONING"}
+{"ts": "2025-07-29T21:32:42.433049Z", "event": "gate_resumed", "gate": "GATE_A_POSITIONING"}
+{"ts": "2025-07-29T21:32:42.436917Z", "event": "task_started", "role": "content_planner", "goal": "Build 7–10 item content calendar", "task_id": "1753824762-content_planner"}
+{"ts": "2025-07-29T21:32:42.441475Z", "event": "task_completed", "role": "content_planner", "task_id": "1753824762-content_planner", "artifacts": ["out/20250729-233002/artifacts/calendar.json", "out/20250729-233002/artifacts/content_calendar.csv"]}
+{"ts": "2025-07-29T21:32:42.441610Z", "event": "task_started", "role": "copywriter", "goal": "Draft first LinkedIn post", "task_id": "1753824762-copywriter"}
+{"ts": "2025-07-29T21:32:46.669595Z", "event": "task_completed", "role": "copywriter", "task_id": "1753824762-copywriter", "artifacts": ["out/20250729-233002/artifacts/post_linkedin.md", "out/20250729-233002/artifacts/policy_check.json"]}
+{"ts": "2025-07-29T21:32:46.669889Z", "event": "gate_waiting", "gate": "GATE_B_FIRST_ASSET"}
+{"ts": "2025-07-29T21:34:46.806420Z", "event": "gate_resumed", "gate": "GATE_B_FIRST_ASSET"}
+{"ts": "2025-07-29T21:34:46.816703Z", "event": "run_completed"}

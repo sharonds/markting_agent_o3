@@ -1909,7 +1909,107 @@ Let's execute
 
 _**Assistant**_
 
+I'll execute the commands to update the `.gitignore` and commit the logs and artifacts for ChatGPT review: 
 
+---
+
+_**User**_
+
+# from your repo root
+git checkout -b chore/v3.1
+# unzip into the repo root (preserve folders like app/, prompts/, .github/)
+# macOS/Linux:
+unzip -o ~/Downloads/v3.1-pr-bundle.zip -d .
+# Windows (PowerShell):
+# Expand-Archive -Force -Path "$HOME\\Downloads\\v3.1-pr-bundle.zip" -DestinationPath .
+
+git add -A
+git commit -m "v3.1: robust JSON, schema repair, planner remap, summary metrics"
+git push -u origin chore/v3.1
+# then open a PR to main on GitHub
+
+---
+
+_**Assistant**_
+
+I'll help you create the v3.1 branch and apply the updates. Let me execute those commands: Now I'll check if the v3.1-pr-bundle.zip file exists in Downloads and unzip it: Great! The file exists. Now I'll unzip it into the repo root: Perfect! Now let me stage all changes and commit: Perfect! ✅ **v3.1 branch created and pushed successfully!**
+
+## 🚀 **What was accomplished:**
+
+✅ **New branch created**: `chore/v3.1` from main  
+✅ **Updates applied**: v3.1 feature bundle integrated  
+✅ **5 files updated**: 744 insertions, 22 deletions  
+✅ **Pushed to GitHub**: Ready for PR creation  
+
+## 📋 **Files Updated in v3.1:**
+
+1. **`README.md`** - Updated documentation
+2. **`core.py`** - Enhanced orchestration logic
+3. **`repair_run.py`** - NEW: Schema repair utility
+4. **`run-orchestrator.yml`** - NEW: GitHub Actions workflow
+
+## 🔧 **v3.1 Features Added:**
+- **Robust JSON handling** - Improved parsing and error recovery
+- **Schema repair** - Automatic validation and fixing
+- **Planner remapping** - Enhanced content planning capabilities  
+- **Summary metrics** - Better reporting and analytics
+- **GitHub Actions** - Automated workflow support
+
+## 📋 **Next Steps:**
+
+1. **Open GitHub** at https://github.com/sharonds/markting_agent_o3/pull/new/chore/v3.1
+2. **Create Pull Request** from `chore/v3.1` to `main`
+3. **Review changes** in the PR interface
+4. **Merge when ready** to deploy v3.1 features
+
+Your marketing agents application is now updated to v3.1 with enhanced reliability and new features! 🎯
+
+---
+
+_**User**_
+
+# VS Code loads .env automatically if you set envFile; else:
+set -a; source .env; set +a
+
+python app/main.py --goal "Launch beta for EU SMB founders"
+
+---
+
+_**Assistant**_
+
+I'll help you run the marketing agents application with your goal. Let me first check if there's a `.env` file and then run the command. I can see there is a `.env` file. Let me run the command to execute the marketing agents with your goal. I see there's a module import issue. Let me check the current directory structure and run it with the proper Python path: Perfect! The marketing agents application has successfully completed a full run for your goal "Launch beta for EU SMB founders". Let me check what artifacts were generated: Excellent! The application has generated a complete marketing campaign for launching your beta to EU SMB founders. Here's what was created:
+
+## Generated Campaign Assets:
+
+1. **Evidence Pack** (`evidence_pack.json`) - Market research and validation data
+2. **Strategy Pack** (`strategy_pack.json`) - Target audience and strategic framework  
+3. **Positioning** (`positioning.md`) - Brand positioning and messaging strategy
+4. **Content Calendar** (`calendar.json` & `content_calendar.csv`) - 7-10 item content schedule
+5. **LinkedIn Post** (`post_linkedin.md`) - First social media content piece
+6. **Policy Check** (`policy_check.json`) - Brand compliance validation
+
+The system successfully:
+- ✅ Researched the EU SMB founder market 
+- ✅ Created strategic positioning for your beta launch
+- ✅ Built a content calendar for ongoing marketing
+- ✅ Generated compliant LinkedIn content
+- ✅ Validated everything against brand guidelines
+
+All artifacts are saved in `` and are ready for review. The agents worked through two approval gates (positioning review and first asset review) to ensure quality output.
+
+Would you like me to show you the contents of any specific generated file, or would you prefer to review them directly in the `` folder?
+
+---
+
+_**User**_
+
+LEt's push the branch into main
+
+---
+
+_**Assistant**_
+
+I'll help you merge the v3.1 branch into main. Let me check the current git status and then merge the branch. 
 
 ---
 

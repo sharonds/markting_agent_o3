@@ -1,0 +1,60 @@
+```json
+{
+  "evidence_pack": {
+    "facts": [
+      {
+        "fact": "Zapier offers integrations with over 3,000 apps, allowing users to automate workflows across various platforms.",
+        "source_url": "https://zapier.com/apps"
+      },
+      {
+        "fact": "Users can create multi-step workflows without writing any code, making automation accessible for non-developers.",
+        "source_url": "https://zapier.com/blog/no-code-automation/"
+      },
+      {
+        "fact": "Zapier's automation tools can help teams save time by reducing manual tasks, although specific time savings may vary by use case.",
+        "source_url": "https://zapier.com/blog/automation-time-savings/"
+      },
+      {
+        "fact": "The platform provides a variety of user stories and templates to help new users get started with automation.",
+        "source_url": "https://zapier.com/templates"
+      },
+      {
+        "fact": "Zapier is particularly suited for small to medium-sized businesses (SMBs) looking to scale their operations efficiently.",
+        "source_url": "https://zapier.com/blog/smb-automation/"
+      }
+    ],
+    "keyword_clusters": [
+      {
+        "cluster": "No-Code Automation",
+        "intent": "awareness"
+      },
+      {
+        "cluster": "Workflow Integration",
+        "intent": "consideration"
+      },
+      {
+        "cluster": "Time Savings",
+        "intent": "consideration"
+      },
+      {
+        "cluster": "User Templates",
+        "intent": "transactional"
+      },
+      {
+        "cluster": "SMB Efficiency",
+        "intent": "awareness"
+      }
+    ],
+    "risks": [
+      "Assuming that all users will find the platform easy to use without prior experience.",
+      "Potential for users to have varying definitions of 'time saved' based on their specific workflows.",
+      "Risk of overestimating the appeal of automation to non-technical users."
+    ],
+    "assumptions": [
+      "Users are looking for no-code solutions to streamline their operations.",
+      "The target audience is familiar with the concept of automation but may not have used it before.",
+      "The emphasis on templates and user stories will resonate with the audience's desire for practical examples."
+    ]
+  }
+}
+```

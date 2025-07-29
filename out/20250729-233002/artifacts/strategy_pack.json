@@ -1,0 +1,142 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB Operations Managers",
+        "jobs": [
+          "Streamline business processes",
+          "Increase team productivity",
+          "Manage cross-platform workflows"
+        ],
+        "pains": [
+          "Time-consuming manual tasks",
+          "Lack of technical expertise for complex integrations",
+          "Difficulty scaling operations efficiently"
+        ],
+        "gains": [
+          "Automated workflows across multiple apps",
+          "Time savings on repetitive tasks",
+          "Ability to create integrations without coding"
+        ],
+        "triggers": [
+          "Increasing workload with limited resources",
+          "Frustration with manual data entry across platforms",
+          "Need to scale operations without hiring more staff"
+        ],
+        "qualifiers": [
+          "Works in a small to medium-sized business",
+          "Uses multiple software applications daily",
+          "Has decision-making authority for productivity tools"
+        ],
+        "disqualifiers": [
+          "Large enterprise with dedicated IT department",
+          "Requires highly customized, code-level integrations",
+          "Not using any cloud-based applications"
+        ]
+      }
+    ]
+  },
+  "positioning": {
+    "category": "No-Code Automation Platform",
+    "for": "Small to Medium-Sized Businesses",
+    "who": "Want to streamline operations and increase productivity",
+    "our_product": "Zapier",
+    "is_a": "User-friendly automation tool",
+    "unlike": "Complex, code-heavy integration platforms",
+    "we": "Empower non-technical users to create powerful, multi-app workflows without writing a single line of code",
+    "rtbs": [
+      {
+        "text": "Offers integrations with over 3,000 apps for versatile workflow automation",
+        "evidence_ids": [
+          "1"
+        ]
+      },
+      {
+        "text": "Enables creation of multi-step workflows without coding, accessible to non-developers",
+        "evidence_ids": [
+          "2"
+        ]
+      },
+      {
+        "text": "Provides user stories and templates to help new users quickly start automating",
+        "evidence_ids": [
+          "4"
+        ]
+      }
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "id": "ease_of_use",
+        "name": "Effortless Automation for Everyone",
+        "claims": [
+          "Create powerful workflows without coding skills",
+          "Get started quickly with user-friendly templates",
+          "Connect your favorite apps in minutes"
+        ],
+        "evidence_ids": [
+          "2",
+          "4"
+        ],
+        "tones": [
+          "Empowering",
+          "Accessible",
+          "Practical"
+        ],
+        "ctas": [
+          "Start automating for free",
+          "Explore our templates",
+          "Connect your first apps"
+        ]
+      },
+      {
+        "id": "time_savings",
+        "name": "Reclaim Your Time with Smart Automation",
+        "claims": [
+          "Reduce manual tasks and focus on what matters",
+          "Scale your operations efficiently",
+          "Automate across 3,000+ apps"
+        ],
+        "evidence_ids": [
+          "1",
+          "3",
+          "5"
+        ],
+        "tones": [
+          "Efficient",
+          "Productive",
+          "Transformative"
+        ],
+        "ctas": [
+          "Calculate your time savings",
+          "See how others save time",
+          "Start your free trial"
+        ]
+      },
+      {
+        "id": "business_growth",
+        "name": "Grow Your Business, Not Your Workload",
+        "claims": [
+          "Scale operations without increasing headcount",
+          "Streamline processes across your entire business",
+          "Adapt quickly to changing business needs"
+        ],
+        "evidence_ids": [
+          "3",
+          "5"
+        ],
+        "tones": [
+          "Ambitious",
+          "Strategic",
+          "Forward-thinking"
+        ],
+        "ctas": [
+          "See growth case studies",
+          "Plan your automation strategy",
+          "Get a demo for your business"
+        ]
+      }
+    ]
+  }
+}
