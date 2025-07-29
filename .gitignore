@@ -40,7 +40,7 @@ env/
 
 # Other output folders
 outputs/
-artifacts/
+# artifacts/ - Commented out to allow out/*/artifacts/ folders
 
 # IDE
 .vscode/settings.json

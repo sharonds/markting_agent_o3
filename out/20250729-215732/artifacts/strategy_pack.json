@@ -1,0 +1,99 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB SaaS founders (EU)",
+        "jobs": [
+          "ship faster",
+          "generate MQLs"
+        ],
+        "pains": [
+          "thin marketing bandwidth"
+        ],
+        "gains": [
+          "predictable pipeline"
+        ],
+        "triggers": [
+          "launching new feature"
+        ],
+        "qualifiers": [
+          "team <25",
+          "self-serve motion"
+        ],
+        "disqualifiers": [
+          "enterprise sales cycles >9m"
+        ]
+      }
+    ]
+  },
+  "positioning": {
+    "category": "Agentic marketing co-pilot",
+    "for": "SMB SaaS founders in EU",
+    "who": "need to launch features fast without a big team",
+    "our_product": "Acme",
+    "is_a": "workflow + content generator with strategy guardrails",
+    "unlike": "Globex (enterprise-first) and Contoso (copy-only tools)",
+    "we": "tie ICP/positioning to every asset via gating and citations",
+    "rtbs": [
+      {
+        "text": "7-day launch pack",
+        "evidence_ids": [
+          "f1"
+        ]
+      }
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "id": "p1",
+        "name": "Speed to value",
+        "claims": [
+          "From intake to launch in 7 days"
+        ],
+        "evidence_ids": [
+          "f1"
+        ],
+        "tones": [
+          "confident",
+          "practical"
+        ],
+        "ctas": [
+          "Book a 15-min fit check"
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Practical guidance",
+        "claims": [
+          "No fluff; concrete steps"
+        ],
+        "evidence_ids": [
+          "f2"
+        ],
+        "tones": [
+          "helpful"
+        ],
+        "ctas": [
+          "See a sample pack"
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "Social proof",
+        "claims": [
+          "Proof > promises"
+        ],
+        "evidence_ids": [
+          "f1"
+        ],
+        "tones": [
+          "credible"
+        ],
+        "ctas": [
+          "Read a case note"
+        ]
+      }
+    ]
+  }
+}

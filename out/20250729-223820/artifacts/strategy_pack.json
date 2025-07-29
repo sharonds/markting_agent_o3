@@ -1,0 +1,140 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB Operations Leaders",
+        "jobs": [
+          "Streamline business processes",
+          "Increase team productivity",
+          "Manage multiple tools and applications"
+        ],
+        "pains": [
+          "Time-consuming manual tasks",
+          "Lack of technical expertise for custom integrations",
+          "Difficulty managing workflows across multiple apps"
+        ],
+        "gains": [
+          "Automate repetitive tasks",
+          "Save time on routine processes",
+          "Easily connect different business applications"
+        ],
+        "triggers": [
+          "Expanding business operations",
+          "Increasing workload with limited resources",
+          "Frustration with manual data entry"
+        ],
+        "qualifiers": [
+          "Decision-maker in SMB",
+          "Uses multiple business applications",
+          "Seeks efficiency improvements"
+        ],
+        "disqualifiers": [
+          "Large enterprise with dedicated IT team",
+          "Requires highly complex, custom integrations",
+          "Prefers fully manual processes"
+        ]
+      }
+    ]
+  },
+  "positioning": {
+    "category": "No-code automation platform",
+    "for": "Small to medium-sized businesses",
+    "who": "Want to streamline their workflows without coding",
+    "our_product": "Zapier",
+    "is_a": "User-friendly automation tool",
+    "unlike": "Complex integration platforms requiring technical expertise",
+    "we": "Connect over 3,000 apps to automate your work, saving time and increasing productivity",
+    "rtbs": [
+      {
+        "text": "Extensive app integration library with over 3,000 connected apps",
+        "evidence_ids": [
+          "fact_1"
+        ]
+      },
+      {
+        "text": "No coding required, making it accessible for non-technical users",
+        "evidence_ids": [
+          "fact_5"
+        ]
+      },
+      {
+        "text": "Significant time savings through task automation",
+        "evidence_ids": [
+          "fact_3"
+        ]
+      }
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "id": "ease_of_use",
+        "name": "Effortless Automation",
+        "claims": [
+          "Automate without coding",
+          "Connect your favorite apps easily",
+          "Get started quickly with templates"
+        ],
+        "evidence_ids": [
+          "fact_1",
+          "fact_4",
+          "fact_5"
+        ],
+        "tones": [
+          "Approachable",
+          "Empowering",
+          "Efficient"
+        ],
+        "ctas": [
+          "Start automating for free",
+          "Explore our templates",
+          "Connect your apps now"
+        ]
+      },
+      {
+        "id": "time_savings",
+        "name": "Reclaim Your Time",
+        "claims": [
+          "Save hours on routine tasks",
+          "Boost team productivity",
+          "Focus on what matters most"
+        ],
+        "evidence_ids": [
+          "fact_3"
+        ],
+        "tones": [
+          "Motivational",
+          "Practical",
+          "Results-oriented"
+        ],
+        "ctas": [
+          "Calculate your time savings",
+          "See customer success stories",
+          "Start your free trial"
+        ]
+      },
+      {
+        "id": "smb_focus",
+        "name": "Built for Growing Businesses",
+        "claims": [
+          "Tailored for SMB needs",
+          "Scale your operations efficiently",
+          "Affordable automation for every team"
+        ],
+        "evidence_ids": [
+          "fact_2"
+        ],
+        "tones": [
+          "Supportive",
+          "Understanding",
+          "Growth-focused"
+        ],
+        "ctas": [
+          "See SMB-friendly pricing",
+          "Book a demo for your team",
+          "Join thousands of SMBs automating with Zapier"
+        ]
+      }
+    ]
+  }
+}

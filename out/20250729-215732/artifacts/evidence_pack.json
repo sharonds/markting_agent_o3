@@ -1,0 +1,42 @@
+{
+  "facts": [
+    {
+      "id": "f1",
+      "claim": "Acme reduces onboarding time for SMB founders in SaaS",
+      "source": "https://example.com"
+    },
+    {
+      "id": "f2",
+      "claim": "Competitor Globex targets enterprises",
+      "source": "https://globex.example"
+    }
+  ],
+  "competitors": [
+    {
+      "name": "Globex",
+      "positioning": "Enterprise-first automation",
+      "source": "https://globex.example"
+    }
+  ],
+  "keywords": [
+    {
+      "cluster": "beta launch",
+      "intent": "consideration",
+      "queries": [
+        "beta signup",
+        "early access"
+      ]
+    },
+    {
+      "cluster": "go-to-market",
+      "intent": "awareness",
+      "queries": [
+        "feature launch plan",
+        "saas launch checklist"
+      ]
+    }
+  ],
+  "risks": [
+    "Limited EU case studies"
+  ]
+}
