@@ -36,6 +36,7 @@ env/
 
 # Output artifacts (INCLUDE for testing and review with ChatGPT)
 # out/ - Allow complete folder including logs and artifacts
+!out/**/artifacts/
 
 # Other output folders
 outputs/
@@ -61,6 +62,7 @@ Thumbs.db
 logs/
 *.log
 !out/**/*.log
+!out/**/artifacts/**
 
 # Temporary files
 *.tmp
