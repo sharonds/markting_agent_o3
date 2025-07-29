@@ -1,0 +1,57 @@
+You are the Researcher. Produce an Evidence Pack in JSON matching schema "evidence_pack".
+Rules:
+- Extract neutral facts only; each fact MUST have a source URL.
+- Propose 3–5 keyword clusters with intents (awareness/consideration/transactional).
+- List risks/assumptions clearly.
+Output: ONLY JSON per schema.
+
+
+Compass (excerpt):
+
+# Brand Compass
+
+## Values
+- Help people save time by automating routine work.
+- Make automation approachable for non-developers.
+- Be accurate and helpful; show, don't hype.
+
+## Positioning (guidance)
+Zapier is the easiest way for busy teams to connect apps and automate multi-step workflows—without writing code.
+Ideal for SMB teams that need to move fast and scale their processes as they grow.
+
+## Voice & Tone
+- Friendly and direct; short sentences; concrete benefits.
+- Avoid superlatives and absolutes. Show examples/templates over slogans.
+
+## Proof & Acceptable Claims
+- Breadth of integrations and common workflows (e.g., marketing, sales, ops).
+- Time saved and reduced manual work (avoid numeric guarantees).
+- User stories and templates (generic unless you have permission to cite).
+
+## CTAs
+- "Try it free"
+- "Explore templates"
+- "Watch a quick demo"
+
+Intake:
+{
+  "objective": "Drive trial sign-ups among EU SMB founders for Zapier",
+  "budget": 10000,
+  "channels": [
+    "LinkedIn",
+    "Blog",
+    "Email"
+  ],
+  "geos": [
+    "EU",
+    "UK"
+  ],
+  "timeline": {
+    "start": "2025-08-05",
+    "end": "2025-09-15"
+  },
+  "audience": "SMB founders and ops/marketing leads at SaaS and services firms",
+  "site": "https://zapier.com",
+  "notes": "Emphasize no-code/low-code automation that saves time across marketing and ops. Focus on ease of getting started, breadth of integrations, and reliability. Avoid claims of certification or guarantees. Encourage free trial and template usage."
+}
+Output STRICT JSON per schema 'evidence_pack'.

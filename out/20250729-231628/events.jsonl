@@ -1,0 +1,4 @@
+{"ts": "2025-07-29T23:16:28.555027Z", "event": "run_started", "run_id": "20250729-231628", "goal": "Launch beta for EU SMB founders"}
+{"ts": "2025-07-29T23:16:28.564043Z", "event": "task_started", "role": "researcher", "goal": "Compile research/evidence pack", "task_id": "1753830988-researcher"}
+{"ts": "2025-07-29T23:16:29.271702Z", "event": "task_failed", "role": "researcher", "task_id": "1753830988-researcher", "error": "Error code: 401 - {'error': {'message': \"You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.\", 'type': 'invalid_request_error', 'param': None, 'code': None}}"}
+{"ts": "2025-07-29T23:16:29.272261Z", "event": "run_completed"}
