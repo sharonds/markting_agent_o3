@@ -1,0 +1,4 @@
+2025-07-29 22:29:31,090 | INFO | run_started :: {'run_id': '20250729-222931', 'goal': 'Launch beta for EU SMB founders'}
+2025-07-29 22:29:31,095 | INFO | task_started :: {'role': 'researcher', 'goal': 'Compile research/evidence pack', 'task_id': '1753820971-researcher'}
+2025-07-29 22:29:31,098 | INFO | task_failed :: {'role': 'researcher', 'task_id': '1753820971-researcher', 'error': "No module named 'openai'"}
+2025-07-29 22:29:31,098 | INFO | run_completed :: {'total_artifacts': 0, 'index': 'out/20250729-222931/SUMMARY.md'}
