@@ -43,6 +43,7 @@ Return a single top-level JSON object matching schema 'evidence_pack'. No code f
         usage = {"prompt_tokens": getattr(resp.usage, "prompt_tokens", 0), "completion_tokens": getattr(resp.usage, "completion_tokens", 0)} if resp.usage else None
         add_message(ctx['db'], ctx['run_id'], task_id, "assistant", provider.name, resp.text, usage)
 
+    validate_obj("evidence_pack", obj)
     out = os.path.join(ctx['paths']['artifacts'], "evidence_pack.json")
     write_json(out, obj)
     return [Artifact(path=out, kind="json", summary="Evidence pack")]

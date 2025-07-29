@@ -1,0 +1,6 @@
+2025-07-30 00:30:46,776 | INFO | run_started :: {'run_id': '20250730-003046', 'goal': 'Launch beta for EU SMB founders'}
+2025-07-30 00:30:46,783 | INFO | task_started :: {'role': 'researcher', 'goal': 'Compile research/evidence pack', 'task_id': '1753828246-researcher'}
+2025-07-30 00:30:55,105 | INFO | task_completed :: {'role': 'researcher', 'task_id': '1753828246-researcher', 'artifacts': ['out/20250730-003046/artifacts/evidence_pack.json']}
+2025-07-30 00:30:55,105 | INFO | task_started :: {'role': 'strategist', 'goal': 'Draft ICP + positioning + messaging', 'task_id': '1753828255-strategist'}
+2025-07-30 00:31:08,513 | INFO | task_failed :: {'role': 'strategist', 'task_id': '1753828255-strategist', 'error': 'Strategy pack object is None or empty'}
+2025-07-30 00:31:08,514 | INFO | run_completed :: {'spent_eur': 0.0}

@@ -1,0 +1,60 @@
+{
+  "facts": [
+    {
+      "fact": "Zapier integrates with over 3,000 apps, allowing users to automate workflows without coding.",
+      "source": "https://zapier.com/apps",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier is used by over 4 million users worldwide to streamline their business processes.",
+      "source": "https://zapier.com/about",
+      "geo": "UK",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier offers a free plan that allows users to create simple automations with limited features.",
+      "source": "https://zapier.com/pricing",
+      "geo": "EU",
+      "date": "2023-10-01"
+    },
+    {
+      "fact": "Zapier has a user-friendly interface that is designed for non-technical users.",
+      "source": "https://zapier.com/blog",
+      "geo": "UK",
+      "date": "2023-10-01"
+    }
+  ],
+  "competitors": [
+    "Integromat",
+    "Automate.io",
+    "Microsoft Power Automate"
+  ],
+  "keywords": [
+    {
+      "cluster": "Workflow Automation",
+      "intent": "awareness"
+    },
+    {
+      "cluster": "Integrations",
+      "intent": "consideration"
+    },
+    {
+      "cluster": "No-Code Solutions",
+      "intent": "consideration"
+    },
+    {
+      "cluster": "Business Efficiency",
+      "intent": "transactional"
+    },
+    {
+      "cluster": "SaaS Tools",
+      "intent": "awareness"
+    }
+  ],
+  "risks": [
+    "Potential market saturation with similar automation tools.",
+    "Dependence on third-party app integrations which may change or be discontinued.",
+    "User resistance to adopting automation tools due to perceived complexity."
+  ]
+}
