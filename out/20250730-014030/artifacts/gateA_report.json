@@ -1,0 +1,40 @@
+{
+  "coverage": [
+    {
+      "pillar_id": "p1",
+      "name": "Effortless Integration",
+      "evidence_ids": [
+        "facts[0]"
+      ],
+      "resolved": [
+        "facts[0]"
+      ],
+      "missing": []
+    },
+    {
+      "pillar_id": "p2",
+      "name": "Time-Saving Efficiency",
+      "evidence_ids": [
+        "facts[3]"
+      ],
+      "resolved": [
+        "facts[3]"
+      ],
+      "missing": []
+    },
+    {
+      "pillar_id": "p3",
+      "name": "Scalable Solutions",
+      "evidence_ids": [
+        "facts[1]",
+        "facts[2]"
+      ],
+      "resolved": [
+        "facts[1]",
+        "facts[2]"
+      ],
+      "missing": []
+    }
+  ],
+  "missing_total": 0
+}

@@ -1,0 +1,189 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB Founders",
+        "jobs": [
+          "CEO",
+          "Founder",
+          "Managing Director"
+        ],
+        "pains": [
+          "Time-consuming manual tasks",
+          "Difficulty managing multiple tools",
+          "Limited resources for custom integrations"
+        ],
+        "gains": [
+          "Increased productivity",
+          "Streamlined operations",
+          "Cost-effective automation"
+        ],
+        "triggers": [
+          "Rapid business growth",
+          "Increasing operational complexity",
+          "Need for scalable processes"
+        ],
+        "qualifiers": [
+          "1-50 employees",
+          "Uses multiple SaaS tools",
+          "Based in EU or UK"
+        ],
+        "disqualifiers": [
+          "Enterprise-level companies",
+          "Extensive in-house IT teams",
+          "Highly regulated industries with strict data policies"
+        ],
+        "objections": [
+          "We're too small for automation",
+          "It seems complicated to set up",
+          "We can't afford another tool",
+          "Our processes are too unique for a general solution",
+          "We're worried about data security"
+        ]
+      },
+      {
+        "name": "SaaS Operations Leads",
+        "jobs": [
+          "Operations Manager",
+          "Head of Operations",
+          "Process Improvement Specialist"
+        ],
+        "pains": [
+          "Inefficient data transfer between systems",
+          "Repetitive manual tasks eating up time",
+          "Difficulty scaling operations with growth"
+        ],
+        "gains": [
+          "Automated workflows",
+          "Improved data accuracy",
+          "More time for strategic initiatives"
+        ],
+        "triggers": [
+          "Increasing operational bottlenecks",
+          "Team expansion",
+          "New tool adoption"
+        ],
+        "qualifiers": [
+          "SaaS company with 10-200 employees",
+          "Multiple department coordination required",
+          "EU or UK based"
+        ],
+        "disqualifiers": [
+          "Companies with fully custom-built internal tools",
+          "Businesses not using cloud-based applications",
+          "Teams resistant to process changes"
+        ],
+        "objections": [
+          "Our current processes work fine",
+          "We need more customization than a general tool can offer",
+          "It might disrupt our existing workflows",
+          "We're concerned about employee adoption",
+          "How does this integrate with our existing tech stack?"
+        ]
+      }
+    ]
+  },
+  "positioning": {
+    "category": "Workflow Automation Platform",
+    "for": "SMB founders and operations leads in SaaS and service firms",
+    "who": "struggle with time-consuming manual tasks and inefficient processes",
+    "our_product": "Zapier",
+    "is_a": "no-code automation tool that connects your apps and streamlines your workflows",
+    "unlike": "complex, code-heavy integration platforms or limited point-to-point connectors",
+    "we": "empower you to create custom automations easily, saving time and boosting productivity across your business",
+    "rtbs": [
+      {
+        "text": "Integrates with over 3,000 apps, allowing for versatile automation possibilities without coding",
+        "evidence_ids": [
+          "facts[0]"
+        ]
+      },
+      {
+        "text": "Trusted by over 4 million users worldwide to streamline their operations",
+        "evidence_ids": [
+          "facts[1]"
+        ]
+      },
+      {
+        "text": "Offers a free plan for users to start automating immediately with basic features",
+        "evidence_ids": [
+          "facts[2]"
+        ]
+      },
+      {
+        "text": "Saves users an average of 10 hours per week through automated workflows",
+        "evidence_ids": [
+          "facts[3]"
+        ]
+      }
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "id": "p1",
+        "name": "Effortless Integration",
+        "claims": [
+          "Connect your favorite apps without coding",
+          "Create powerful workflows with just a few clicks",
+          "Automate tasks across 3,000+ applications"
+        ],
+        "evidence_ids": [
+          "facts[0]"
+        ],
+        "tones": [
+          "empowering",
+          "simple",
+          "practical"
+        ],
+        "ctas": [
+          "Explore our app directory",
+          "Start automating for free"
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Time-Saving Efficiency",
+        "claims": [
+          "Reclaim hours in your workweek",
+          "Focus on growth, not repetitive tasks",
+          "Streamline operations across your business"
+        ],
+        "evidence_ids": [
+          "facts[3]"
+        ],
+        "tones": [
+          "motivating",
+          "results-oriented",
+          "confident"
+        ],
+        "ctas": [
+          "Calculate your time savings",
+          "See efficiency in action"
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "Scalable Solutions",
+        "claims": [
+          "Grow your business without growing your workload",
+          "Automate more as your needs evolve",
+          "Join 4 million users in streamlining operations"
+        ],
+        "evidence_ids": [
+          "facts[1]",
+          "facts[2]"
+        ],
+        "tones": [
+          "supportive",
+          "forward-thinking",
+          "reliable"
+        ],
+        "ctas": [
+          "Start with our free plan",
+          "Upgrade as you grow"
+        ]
+      }
+    ]
+  }
+}

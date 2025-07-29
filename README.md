@@ -1,26 +1,14 @@
 
-# v3.2 PR bundle (generated 2025-07-29T21:55:50.087205Z)
+# v3.2.1 tiny PR (generated 2025-07-29T23:34:56.685606Z)
 
-Includes:
-- ContextPack (locale/audience/geos/channels/timeline/ctas) → injected into every agent
-- Schemas extended: evidence facts (geo/date), ICP objections, calendar (format/cta)
-- Planner: rule-first slots from timeline/channels with pillar/intent coverage
-- Gate A/B reports: evidence coverage; locale/CTA/numeric checks
-- Cost tracking (token-based; set env rates COST_* to enable EUR totals)
-- Tests for context pack & reports
+Adds:
+- Budget hard-stop: run aborts after any task if estimated spend (EUR) exceeds `BUDGET_EUR`.
+- Style report: writes `artifacts/style_report.json` with sentence length, exclamations, ALL-CAPS ratio, passive voice heuristic.
+- CI artifact upload: workflow now uploads `/out/**` as a downloadable artifact per run.
 
-Apply:
+Usage:
 ```bash
-git checkout -b chore/v3.2
-unzip -o v3.2-pr-bundle.zip -d .
-git add -A
-git commit -m "v3.2: ContextPack, planner, gate reports, costs"
-git push -u origin chore/v3.2
-# open PR to main
-```
-
-Env for costs (optional):
-```bash
+export BUDGET_EUR=8
 export COST_OPENAI_INPUT_PER1K=0.00
 export COST_OPENAI_OUTPUT_PER1K=0.00
 export COST_ANTHROPIC_INPUT_PER1K=0.00
