@@ -17,11 +17,27 @@ class BaseProvider:
         return LLMResponse(r.text, obj, r.usage)
 
 def safe_extract_json(text: str):
-    # Naive extraction
+    # First try to extract JSON from markdown code blocks
+    json_blocks = re.findall(r"```(?:json)?\s*\n(.*?)\n```", text, re.DOTALL)
+    for block in json_blocks:
+        try: 
+            return json.loads(block.strip())
+        except Exception: 
+            continue
+    
+    # Fallback: Find JSON objects in text
     cands = re.findall(r"\{[\s\S]*\}", text)
     for raw in reversed(cands):
-        try: return json.loads(raw)
-        except Exception: continue
+        try: 
+            parsed = json.loads(raw)
+            # If there's a wrapper object, try to extract the inner content
+            if isinstance(parsed, dict) and len(parsed) == 1:
+                key = list(parsed.keys())[0]
+                if key in ['strategy_pack', 'evidence_pack']:
+                    return parsed[key]
+            return parsed
+        except Exception: 
+            continue
     return {}
 
 class OfflineProvider(BaseProvider):

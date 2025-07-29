@@ -1,10 +1,13 @@
-objective: "Launch Beta"
-budget: 5000
+objective: "Drive trial sign-ups among EU SMB founders for Zapier"
+budget: 10000
 channels: ["LinkedIn", "Blog", "Email"]
-geos: ["EU"]
+geos: ["EU", "UK"]
 timeline:
   start: "2025-08-05"
   end:   "2025-09-15"
-audience: "SMB founders in SaaS"
-site: "https://example.com"
-notes: "Focus on lead generation and early access signups."
+audience: "SMB founders and ops/marketing leads at SaaS and services firms"
+site: "https://zapier.com"
+notes: >
+  Emphasize no-code/low-code automation that saves time across marketing and ops.
+  Focus on ease of getting started, breadth of integrations, and reliability.
+  Avoid claims of certification or guarantees. Encourage free trial and template usage.
