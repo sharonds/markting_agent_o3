@@ -8,6 +8,7 @@ from app.db import connect, start_run as db_start_run, end_run as db_end_run, ad
 from app.llm_providers import LLMRouter
 from app.context_pack import build_context_pack, write_context_pack
 from app.costs import estimate
+from app.memory.store import open_db as mem_open, load_snapshot as mem_load, persist_from_artifacts as mem_persist
 
 AGENTS = {
     "researcher": researcher.run,
@@ -47,45 +48,6 @@ def _metrics(run_dir):
         "calendar_pillar_mismatches":len(bad_calendar)
     }
 
-def _gateA_report(run_dir):
-    base = os.path.join(run_dir, "artifacts")
-    ev = json.load(open(os.path.join(base,"evidence_pack.json"),"r",encoding="utf-8"))
-    sp = json.load(open(os.path.join(base,"strategy_pack.json"),"r",encoding="utf-8"))
-    fact_by_id = {f["id"]: f for f in ev.get("facts",[]) if "id" in f}
-    pillars = (sp.get("messaging") or {}).get("pillars",[])
-    coverage = []
-    low_quality = []
-    for p in pillars:
-        eids = p.get("evidence_ids", [])
-        resolved = [eid for eid in eids if eid in fact_by_id]
-        missing = [eid for eid in eids if eid not in fact_by_id]
-        prov_scores = [float(fact_by_id[eid].get("provenance_score", 0.0)) for eid in resolved] or [0.0]
-        avg_prov = round(sum(prov_scores)/len(prov_scores), 3)
-        row = {
-            "pillar_id": p.get("id"),
-            "name": p.get("name"),
-            "evidence_ids": eids,
-            "resolved": resolved,
-            "missing": missing,
-            "avg_provenance": avg_prov
-        }
-        coverage.append(row)
-        if avg_prov < float(os.getenv("PROVENANCE_MIN_AVG", "0.5")):
-            low_quality.append({"pillar_id": p.get("id"), "avg_provenance": avg_prov})
-    out = {"coverage": coverage, "missing_total": sum(len(r["missing"]) for r in coverage), "low_quality": low_quality}
-    json.dump(out, open(os.path.join(base,"gateA_report.json"),"w",encoding="utf-8"), indent=2)
-    return out
-
-def _sum_costs(db):
-    try:
-        c = db.execute("select model, coalesce(usage_prompt,0), coalesce(usage_completion,0) from messages")
-    except Exception:
-        return 0.0
-    total_eur = 0.0
-    for model, pin, pout in c.fetchall():
-        total_eur += estimate(model, {"prompt_tokens": pin, "completion_tokens": pout})
-    return total_eur
-
 def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> ProjectState:
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
@@ -99,7 +61,19 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     db_start_run(db, os.path.basename(run_dir), state.intake.get("objective",""), manifest.get("budget_eur", 0), model_info=manifest)
 
     router = LLMRouter()
+
+    # Cross-run memory
+    mem_read = os.getenv("MEMORY_READ", "1") == "1"
+    mem_write = os.getenv("MEMORY_WRITE", "1") == "1"
+    memory_snapshot = {"facts": [], "segments": [], "pillars": [], "stats": {"facts_total":0,"segments_total":0,"pillars_total":0}}
+    if mem_read:
+        mdb = mem_open(os.getenv("MEMORY_DB_PATH"))
+        memory_snapshot = mem_load(mdb)
+        with open(os.path.join(artifacts_dir, "memory_snapshot.json"), "w", encoding="utf-8") as f:
+            json.dump(memory_snapshot, f, indent=2, ensure_ascii=False)
+
     context_pack = build_context_pack(state.compass_meta, state.intake)
+    context_pack["memory_stats"] = memory_snapshot.get("stats", {})
     write_context_pack(os.path.join(artifacts_dir,"context_pack.json"), context_pack)
 
     ctx = {
@@ -111,7 +85,8 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         "db": db,
         "run_id": os.path.basename(run_dir),
         "current_task_id": None,
-        "context_pack": context_pack
+        "context_pack": context_pack,
+        "memory": memory_snapshot
     }
 
     for role, goal in PIPELINE:
@@ -133,9 +108,8 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             if role == "strategist":
                 gate_summary = "Review ICP + Positioning + Messaging (Gate A)"
                 add_gate(db, os.path.basename(run_dir), task.id, "GATE_A_POSITIONING", gate_summary)
-                rep = _gateA_report(run_dir)
                 with open(os.path.join(run_dir, "pending_gate.json"), "w", encoding="utf-8") as f:
-                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id, "report": rep}, f, indent=2)
+                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id}, f, indent=2)
                 log.event("gate_waiting", gate="GATE_A_POSITIONING")
                 if os.getenv("AUTO_APPROVE","0") != "1":
                     input(">> Gate A waiting. Press Enter to approve...")
@@ -161,6 +135,18 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
+    if mem_write:
+        try:
+            ev = json.load(open(os.path.join(artifacts_dir,"evidence_pack.json"),"r",encoding="utf-8"))
+            sp = json.load(open(os.path.join(artifacts_dir,"strategy_pack.json"),"r",encoding="utf-8"))
+            mdb = mem_open(os.getenv("MEMORY_DB_PATH"))
+            counts = mem_persist(mdb, ev, sp)
+            with open(os.path.join(artifacts_dir, "memory_persist_report.json"), "w", encoding="utf-8") as f:
+                json.dump({"upserted": counts}, f, indent=2)
+        except Exception as e:
+            with open(os.path.join(artifacts_dir, "memory_persist_report.json"), "w", encoding="utf-8") as f:
+                json.dump({"error": str(e)}, f, indent=2)
+
     index_path = os.path.join(run_dir, "SUMMARY.md")
     with open(index_path, "w", encoding="utf-8") as f:
         f.write("# Run Summary\n\n")
@@ -173,9 +159,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         f.write("## Health metrics\n")
         for k,v in m.items():
             f.write(f"- {k}: {v}\n")
-        spent = _sum_costs(db)
-        f.write(f"\n## Cost\n- estimated_spend_eur: {spent:.4f}\n")
 
     db_end_run(db, os.path.basename(run_dir), "completed")
-    log.event("run_completed", spent_eur=float(spent))
+    log.event("run_completed")
     return state

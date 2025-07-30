@@ -3,6 +3,10 @@
 .env.local
 .env.*.local
 
+# Memory database (SQLite)
+memory.sqlite
+memory.sqlite-*
+
 # Python
 __pycache__/
 *.py[cod]
@@ -37,6 +41,9 @@ env/
 # Output artifacts (INCLUDE for testing and review with ChatGPT)
 # out/ - Allow complete folder including logs and artifacts
 !out/**/artifacts/
+
+# Ignore current test run outputs (keep only in working directory)
+out/20250730-*/
 
 # Other output folders
 outputs/
