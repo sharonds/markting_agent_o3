@@ -38,6 +38,9 @@ env/
 # out/ - Allow complete folder including logs and artifacts
 !out/**/artifacts/
 
+# Ignore current test run outputs (keep only in working directory)
+out/20250730-*/
+
 # Other output folders
 outputs/
 # artifacts/ - Commented out to allow out/*/artifacts/ folders
