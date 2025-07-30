@@ -11,9 +11,8 @@ from app.costs import estimate
 from app.review.qa import generate_qa_report
 from app.routing.config import load_routing, apply_env
 from app.metrics.collector import write_metrics
-from app.costs_tools import ToolCostLedger
-from tools.search import SearchAdapter
-from tools.keywords import KeywordAdapter
+from app.experiment.util import write_experiment_json
+from app.adapters.context_enrichment import build_external_context
 
 AGENTS = {
     "researcher": researcher.run,
@@ -102,25 +101,10 @@ def _quality_summary(artifacts_dir):
         lines.append(f"- passive_per_sentence: {style.get('passive_per_sentence', 'n/a')}")
     return "\n".join(lines) if lines else "- (no QA/style artifacts found)"
 
-def _shadow_external_tools(goal: str, artifacts_dir: str):
-    if os.getenv("SHADOW", "0") != "1":
-        return
-    ledger = ToolCostLedger(artifacts_dir)
-    # Search
-    provider_search = os.getenv("PROVIDER_SEARCH", "none")
-    sa = SearchAdapter(artifacts_dir, ledger)
-    _ = sa.search(provider_search, goal)
-    # Keywords (seed from goal words)
-    provider_kw = os.getenv("PROVIDER_KEYWORDS", "llm")
-    seeds = [w for w in goal.split() if len(w) > 3][:5]
-    ka = KeywordAdapter(artifacts_dir, ledger)
-    _ = ka.enrich(provider_kw, seeds)
-
 def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> ProjectState:
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
 
-    # Routing
     routing_cfg = load_routing(os.getenv("ROUTING_CONFIG_PATH", "config/routing.yml"))
     resolved = apply_env(routing_cfg)
     with open(os.path.join(artifacts_dir, "routing_resolved.json"), "w", encoding="utf-8") as f:
@@ -137,10 +121,24 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
 
     router = LLMRouter()
     context_pack = build_context_pack(state.compass_meta, state.intake)
-    write_context_pack(os.path.join(artifacts_dir,"context_pack.json"), context_pack)
 
-    # Shadow external tools (no behavior change)
-    _shadow_external_tools(start_goal, artifacts_dir)
+    # Experiment metadata and variant
+    from app.experiment.util import choose_variant, write_experiment_json
+    exp_meta = write_experiment_json(artifacts_dir, start_run)
+    variant = (exp_meta.get("variant") or os.getenv("VARIANT","baseline")).lower()
+
+    # Treatment variant: enrich context_pack
+    if variant == "treatment":
+        ext = build_external_context(start_goal, artifacts_dir)
+        if ext.get("sources"):
+            context_pack["external_sources"] = ext["sources"]
+        if ext.get("keywords"):
+            context_pack["keyword_signals"] = ext["keywords"]
+        if ext.get("snippet"):
+            context_pack["external_context_snippet"] = ext["snippet"]
+
+    from app.context_pack import write_context_pack
+    write_context_pack(os.path.join(artifacts_dir,"context_pack.json"), context_pack)
 
     ctx = {
         "compass_meta": state.compass_meta,
@@ -173,7 +171,6 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             complete_task(db, task.id, "done")
             log.event("task_completed", role=role, task_id=task.id, artifacts=[a.path for a in arts])
 
-            # Budget checks
             spent = _sum_costs(db)
             if budget and not warned and spent >= warn_pct * budget:
                 warned = True
@@ -207,7 +204,6 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
                 resolve_gate(db, os.path.basename(run_dir), task.id, "GATE_B_FIRST_ASSET", "approved")
                 log.event("gate_resumed", gate="GATE_B_FIRST_ASSET")
 
-                # QA report after Gate B
                 qa = generate_qa_report(artifacts_dir, context_pack)
                 qa_path = os.path.join(artifacts_dir, "qa_report.json")
                 add_artifact(db, os.path.basename(run_dir), task.id, qa_path, "json", "QA report")
@@ -220,7 +216,6 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
-    # --- SUMMARY.md (budget banner + cost + quality) ---
     by_task_cost = _costs_by_task(db)
     roles = _task_roles(db)
     by_role = defaultdict(float)
@@ -230,23 +225,18 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
 
     index_path = os.path.join(run_dir, "SUMMARY.md")
     with open(index_path, "w", encoding="utf-8") as f:
-        # Title + budget banner
         f.write("# Run Summary\n\n")
         if budget and spent >= warn_pct * budget:
             util = (spent/budget)*100.0
             f.write(f"> ⚠️ **Budget warning**: spent {spent:.2f} / {budget:.2f} EUR ({util:.1f}%) — threshold {int(warn_pct*100)}%\n\n")
-
         for t in state.tasks:
             f.write(f"- {t.role}: {t.status}\n")
             for a in t.artifacts:
                 f.write(f"  - {a.kind}: {a.path} — {a.summary}\n")
-
         m = _metrics(run_dir)
-        f.write("\n---\n")
-        f.write("## Health metrics\n")
+        f.write("\n---\n## Health metrics\n")
         for k,v in m.items():
             f.write(f"- {k}: {v}\n")
-
         f.write("\n## Cost\n")
         f.write(f"- total_estimated_eur: {spent:.4f}\n")
         if budget:
@@ -255,14 +245,12 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         f.write("- by_role:\n")
         for role, cost in by_role.items():
             f.write(f"  - {role}: {cost:.4f}\n")
-
-        # Quality section
         f.write("\n## Quality\n")
-        f.write(_quality_summary(artifacts_dir) + "\n")
+        # keep simple; QA details already in qa_report.json
+        if not os.path.exists(os.path.join(artifacts_dir,"qa_report.json")):
+            f.write("- (no QA/style artifacts found)\n")
 
-    # --- Metrics artifact ---
     write_metrics(run_dir, db=db, cost_estimator=estimate)
-
     status = "aborted" if (budget and spent > budget) else "completed"
     db_end_run(db, os.path.basename(run_dir), status)
     log.event("run_completed", spent_eur=float(spent), status=status)
