@@ -3,6 +3,10 @@
 .env.local
 .env.*.local
 
+# Memory database (SQLite)
+memory.sqlite
+memory.sqlite-*
+
 # Python
 __pycache__/
 *.py[cod]
