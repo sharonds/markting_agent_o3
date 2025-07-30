@@ -70,7 +70,7 @@ def _costs_by_task(db):
 
 def _task_roles(db):
     try:
-        c = db.execute("select id, role from tasks")
+        c = db.execute("select task_id, role from tasks")
     except Exception:
         return {}
     return {tid: role for (tid, role) in c.fetchall()}
