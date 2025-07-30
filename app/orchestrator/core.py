@@ -10,8 +10,10 @@ from app.context_pack import build_context_pack, write_context_pack
 from app.costs import estimate
 from app.review.qa import generate_qa_report
 from app.routing.config import load_routing, apply_env
-from app.experiment.util import write_experiment_json, choose_variant
 from app.metrics.collector import write_metrics
+from app.costs_tools import ToolCostLedger
+from tools.search import SearchAdapter
+from tools.keywords import KeywordAdapter
 
 AGENTS = {
     "researcher": researcher.run,
@@ -100,6 +102,20 @@ def _quality_summary(artifacts_dir):
         lines.append(f"- passive_per_sentence: {style.get('passive_per_sentence', 'n/a')}")
     return "\n".join(lines) if lines else "- (no QA/style artifacts found)"
 
+def _shadow_external_tools(goal: str, artifacts_dir: str):
+    if os.getenv("SHADOW", "0") != "1":
+        return
+    ledger = ToolCostLedger(artifacts_dir)
+    # Search
+    provider_search = os.getenv("PROVIDER_SEARCH", "none")
+    sa = SearchAdapter(artifacts_dir, ledger)
+    _ = sa.search(provider_search, goal)
+    # Keywords (seed from goal words)
+    provider_kw = os.getenv("PROVIDER_KEYWORDS", "llm")
+    seeds = [w for w in goal.split() if len(w) > 3][:5]
+    ka = KeywordAdapter(artifacts_dir, ledger)
+    _ = ka.enrich(provider_kw, seeds)
+
 def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> ProjectState:
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
@@ -123,8 +139,8 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     context_pack = build_context_pack(state.compass_meta, state.intake)
     write_context_pack(os.path.join(artifacts_dir,"context_pack.json"), context_pack)
 
-    # Experiment metadata (decides baseline/treatment if in canary mode)
-    exp_meta = write_experiment_json(artifacts_dir, start_run)
+    # Shadow external tools (no behavior change)
+    _shadow_external_tools(start_goal, artifacts_dir)
 
     ctx = {
         "compass_meta": state.compass_meta,
@@ -204,7 +220,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
-    # --- SUMMARY.md (includes budget banner + cost + quality) ---
+    # --- SUMMARY.md (budget banner + cost + quality) ---
     by_task_cost = _costs_by_task(db)
     roles = _task_roles(db)
     by_role = defaultdict(float)
@@ -243,13 +259,6 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         # Quality section
         f.write("\n## Quality\n")
         f.write(_quality_summary(artifacts_dir) + "\n")
-
-        # Experiment section
-        f.write("\n## Experiment\n")
-        f.write(f"- experiment_id: {exp_meta.get('experiment_id')}\n")
-        f.write(f"- variant: {exp_meta.get('variant')}\n")
-        if exp_meta.get("scenario"):
-            f.write(f"- scenario: {exp_meta.get('scenario')}\n")
 
     # --- Metrics artifact ---
     write_metrics(run_dir, db=db, cost_estimator=estimate)

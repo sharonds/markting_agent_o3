@@ -1,0 +1,4 @@
+iter,baseline_run,treatment_run,baseline_qa,treatment_qa,baseline_prov,treatment_prov,baseline_llm_cost,treatment_llm_cost,baseline_tool_cost,treatment_tool_cost
+1,out/20250730-041705,out/20250730-041743,1.0,1.0,0.93,0.9,0.0005,0.0005,0.0,0.0
+2,out/20250730-041823,out/20250730-041902,1.0,1.0,0.93,0.93,0.0005,0.0005,0.0,0.0
+3,out/20250730-041940,out/20250730-042015,1.0,1.0,0.915,0.893,0.0005,0.0005,0.0,0.0
