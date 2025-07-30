@@ -8,6 +8,8 @@ from app.db import connect, start_run as db_start_run, end_run as db_end_run, ad
 from app.llm_providers import LLMRouter
 from app.context_pack import build_context_pack, write_context_pack
 from app.costs import estimate
+from app.review.qa import generate_qa_report
+from app.routing.config import load_routing, apply_env
 
 AGENTS = {
     "researcher": researcher.run,
@@ -62,10 +64,10 @@ def _costs_by_task(db):
         c = db.execute("select task_id, model, coalesce(usage_prompt,0), coalesce(usage_completion,0) from messages where task_id is not null")
     except Exception:
         return {}
-    out = {}
+    by_task = defaultdict(float)
     for task_id, model, pin, pout in c.fetchall():
-        out[task_id] = out.get(task_id, 0.0) + estimate(model, {"prompt_tokens": pin, "completion_tokens": pout})
-    return out
+        by_task[task_id] += estimate(model, {"prompt_tokens": pin, "completion_tokens": pout})
+    return dict(by_task)
 
 def _task_roles(db):
     try:
@@ -100,8 +102,14 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
 
+    # Apply routing (PR-D)
+    routing_cfg = load_routing(os.getenv("ROUTING_CONFIG_PATH", "config/routing.yml"))
+    resolved = apply_env(routing_cfg)
+    with open(os.path.join(artifacts_dir, "routing_resolved.json"), "w", encoding="utf-8") as f:
+        json.dump(resolved, f, indent=2)
+
     db = connect(os.path.join(run_dir, "run.sqlite"))
-    temps = {"researcher":0.2,"strategist":0.3,"content_planner":0.2,"copywriter":0.7}
+    temps = {k: v.get("temp", 0.2) for k, v in resolved.items()}
     budget = float(os.getenv("BUDGET_EUR", "0"))
     warn_pct = float(os.getenv("BUDGET_WARN_PCT", "0.8"))
     manifest = {"models": {}, "temps": temps, "budget_eur": budget}
@@ -178,6 +186,11 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
                 resolve_gate(db, os.path.basename(run_dir), task.id, "GATE_B_FIRST_ASSET", "approved")
                 log.event("gate_resumed", gate="GATE_B_FIRST_ASSET")
 
+                # QA report (PR-C)
+                qa = generate_qa_report(artifacts_dir, context_pack)
+                qa_path = os.path.join(artifacts_dir, "qa_report.json")
+                add_artifact(db, os.path.basename(run_dir), task.id, qa_path, "json", "QA report")
+
         except Exception as e:
             task.status = "failed"
             complete_task(db, task.id, "failed")
@@ -186,7 +199,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
-    # --- Write SUMMARY.md with Budget banner + Quality summary ---
+    # --- Write SUMMARY.md with Budget banner + Health + Cost + Quality ---
     by_task_cost = _costs_by_task(db)
     roles = _task_roles(db)
     by_role = defaultdict(float)
@@ -196,7 +209,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
 
     index_path = os.path.join(run_dir, "SUMMARY.md")
     with open(index_path, "w", encoding="utf-8") as f:
-        # Title + optional budget banner
+        # Title + optional budget banner (v3.2.2)
         f.write("# Run Summary\n\n")
         if budget and spent >= warn_pct * budget:
             util = (spent/budget)*100.0
@@ -222,7 +235,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         for role, cost in by_role.items():
             f.write(f"  - {role}: {cost:.4f}\n")
 
-        # Quality section
+        # Quality section (v3.2.2)
         f.write("\n## Quality\n")
         f.write(_quality_summary(artifacts_dir) + "\n")
 
