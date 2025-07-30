@@ -1,6 +1,6 @@
 
 import os, time, json
-from collections import Counter
+from collections import Counter, defaultdict
 from app.state import ProjectState, Task, Artifact
 from app.logs import EventLogger
 from app.agents import researcher, strategist, content_planner, copywriter
@@ -8,7 +8,7 @@ from app.db import connect, start_run as db_start_run, end_run as db_end_run, ad
 from app.llm_providers import LLMRouter
 from app.context_pack import build_context_pack, write_context_pack
 from app.costs import estimate
-from app.review.qa import generate_qa_report
+from app.routing.config import load_routing, apply_env
 
 AGENTS = {
     "researcher": researcher.run,
@@ -48,17 +48,48 @@ def _metrics(run_dir):
         "calendar_pillar_mismatches":len(bad_calendar)
     }
 
+def _sum_costs(db):
+    try:
+        c = db.execute("select model, coalesce(usage_prompt,0), coalesce(usage_completion,0) from messages")
+    except Exception:
+        return 0.0
+    total_eur = 0.0
+    for model, pin, pout in c.fetchall():
+        total_eur += estimate(model, {"prompt_tokens": pin, "completion_tokens": pout})
+    return total_eur
+
+def _costs_by_task(db):
+    try:
+        c = db.execute("select task_id, model, coalesce(usage_prompt,0), coalesce(usage_completion,0) from messages where task_id is not null")
+    except Exception:
+        return {}
+    by_task = defaultdict(float)
+    for task_id, model, pin, pout in c.fetchall():
+        by_task[task_id] += estimate(model, {"prompt_tokens": pin, "completion_tokens": pout})
+    return dict(by_task)
+
+def _task_roles(db):
+    try:
+        c = db.execute("select id, role from tasks")
+    except Exception:
+        return {}
+    return {tid: role for (tid, role) in c.fetchall()}
+
 def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> ProjectState:
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
 
+    # Apply routing
+    routing_cfg = load_routing(os.getenv("ROUTING_CONFIG_PATH", "config/routing.yml"))
+    resolved = apply_env(routing_cfg)
+    with open(os.path.join(artifacts_dir, "routing_resolved.json"), "w", encoding="utf-8") as f:
+        json.dump(resolved, f, indent=2)
+
     db = connect(os.path.join(run_dir, "run.sqlite"))
-    manifest = {
-        "models": {},
-        "temps": {"researcher":0.2,"strategist":0.3,"content_planner":0.2,"copywriter":0.7},
-        "budget_eur": float(os.getenv("BUDGET_EUR", "0"))
-    }
-    db_start_run(db, os.path.basename(run_dir), state.intake.get("objective",""), manifest.get("budget_eur", 0), model_info=manifest)
+    temps = {k: v.get("temp", 0.2) for k, v in resolved.items()}
+    budget = float(os.getenv("BUDGET_EUR", "0"))
+    manifest = {"models": {}, "temps": temps, "budget_eur": budget}
+    db_start_run(db, os.path.basename(run_dir), state.intake.get("objective",""), budget, model_info=manifest)
 
     router = LLMRouter()
     context_pack = build_context_pack(state.compass_meta, state.intake)
@@ -76,6 +107,9 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         "context_pack": context_pack
     }
 
+    warned = False
+    aborted = False
+
     for role, goal in PIPELINE:
         task = Task(id=f"{int(time.time())}-{role}", role=role, goal=goal)
         state.tasks.append(task)
@@ -91,6 +125,19 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             task.status = "done"
             complete_task(db, task.id, "done")
             log.event("task_completed", role=role, task_id=task.id, artifacts=[a.path for a in arts])
+
+            # Budget checks
+            spent = _sum_costs(db)
+            if budget and not warned and spent >= 0.8 * budget:
+                warned = True
+                log.event("budget_warning", spent_eur=float(spent), budget_eur=float(budget), threshold=0.8, role=role)
+                with open(os.path.join(artifacts_dir, "budget_warning.json"), "w", encoding="utf-8") as f:
+                    json.dump({"event":"budget_warning", "spent_eur": spent, "budget_eur": budget, "role": role}, f, indent=2)
+
+            if budget and spent > budget:
+                log.event("budget_exceeded", spent_eur=float(spent), budget_eur=float(budget), role=role)
+                aborted = True
+                break
 
             if role == "strategist":
                 gate_summary = "Review ICP + Positioning + Messaging (Gate A)"
@@ -114,11 +161,6 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
                 resolve_gate(db, os.path.basename(run_dir), task.id, "GATE_B_FIRST_ASSET", "approved")
                 log.event("gate_resumed", gate="GATE_B_FIRST_ASSET")
 
-                # ---- QA report (after copywriter + Gate B) ----
-                qa = generate_qa_report(artifacts_dir, context_pack)
-                qa_path = os.path.join(artifacts_dir, "qa_report.json")
-                add_artifact(db, os.path.basename(run_dir), task.id, qa_path, "json", "QA report")
-
         except Exception as e:
             task.status = "failed"
             complete_task(db, task.id, "failed")
@@ -127,7 +169,14 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
-    # Summary
+    # Summary + per-task cost breakdown
+    by_task_cost = _costs_by_task(db)
+    roles = _task_roles(db)
+    by_role = defaultdict(float)
+    for tid, cost in by_task_cost.items():
+        by_role[roles.get(tid, "unknown")] += cost
+    spent = _sum_costs(db)
+
     index_path = os.path.join(run_dir, "SUMMARY.md")
     with open(index_path, "w", encoding="utf-8") as f:
         f.write("# Run Summary\n\n")
@@ -140,7 +189,20 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         f.write("## Health metrics\n")
         for k,v in m.items():
             f.write(f"- {k}: {v}\n")
+        f.write("\n## Cost\n")
+        f.write(f"- total_estimated_eur: {spent:.4f}\n")
+        if budget:
+            f.write(f"- budget_eur: {budget:.2f}\n")
+            f.write(f"- budget_utilization: {((spent/budget)*100.0):.1f}%\n")
+        f.write("- by_role:\n")
+        for role, cost in by_role.items():
+            f.write(f"  - {role}: {cost:.4f}\n")
+        if os.path.exists(os.path.join(artifacts_dir, "budget_warning.json")):
+            f.write("- budget_warning: true\n")
+        if budget and spent > budget:
+            f.write("- status: aborted_due_to_budget\n")
 
-    db_end_run(db, os.path.basename(run_dir), "completed")
-    log.event("run_completed")
+    status = "aborted" if (budget and spent > budget) else "completed"
+    db_end_run(db, os.path.basename(run_dir), status)
+    log.event("run_completed", spent_eur=float(spent), status=status)
     return state

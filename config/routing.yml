@@ -1,0 +1,15 @@
+
+# Role-based routing for LLM providers and temperatures.
+# Valid providers: openai, anthropic, offline
+researcher:
+  provider: openai
+  temp: 0.2
+strategist:
+  provider: anthropic
+  temp: 0.3
+content_planner:
+  provider: openai
+  temp: 0.2
+copywriter:
+  provider: openai
+  temp: 0.7
