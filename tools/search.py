@@ -58,23 +58,42 @@ class SearchAdapter:
             return resp.json()
 
         data = self.limiter.call(do)
-        # Best effort extraction: look for citations/urls in the response
+        # Extract structured search results from Perplexity response
         items: List[Dict[str, Any]] = []
         try:
-            content = ""
-            if "choices" in data and data["choices"]:
+            # First, try to get structured search_results
+            if "search_results" in data and data["search_results"]:
+                for result in data["search_results"][:self.max_results]:
+                    if "url" in result:
+                        items.append({
+                            "title": result.get("title", urlparse(result["url"]).netloc),
+                            "url": result["url"],
+                            "date": result.get("date"),
+                            "last_updated": result.get("last_updated")
+                        })
+            
+            # If no search_results, fallback to citations array
+            elif "citations" in data and data["citations"]:
+                for url in data["citations"][:self.max_results]:
+                    if url:
+                        items.append({
+                            "title": urlparse(url).netloc,
+                            "url": url
+                        })
+            
+            # Last fallback: regex extraction from content
+            elif "choices" in data and data["choices"]:
                 content = data["choices"][0]["message"]["content"]
-            # naive URL extraction
-            import re
-            urls = re.findall(r"https?://\S+", content)
-            seen = set()
-            for u in urls:
-                if u in seen: continue
-                seen.add(u)
-                parsed = urlparse(u)
-                items.append({"title": parsed.netloc, "url": u})
-                if len(items) >= self.max_results:
-                    break
+                import re
+                urls = re.findall(r"https?://\S+", content)
+                seen = set()
+                for u in urls:
+                    if u in seen: continue
+                    seen.add(u)
+                    parsed = urlparse(u)
+                    items.append({"title": parsed.netloc, "url": u})
+                    if len(items) >= self.max_results:
+                        break
         except Exception:
             items = []
 
