@@ -3,7 +3,7 @@
 import os, sys, subprocess, time, json, csv, glob, argparse, shutil, statistics as stats
 
 def latest_run_dir():
-    runs = sorted(glob.glob("out/*"))
+    runs = sorted(glob.glob("out/202*"))  # Only match timestamp directories
     return runs[-1] if runs else None
 
 def parse_args():
@@ -30,6 +30,8 @@ def run_one(variant, run_number, goal, env_overrides):
     cmd = [sys.executable, "app/main.py", "--goal", goal]
     subprocess.run(cmd, check=True, env=env)
     rd = latest_run_dir()
+    if not rd:
+        raise RuntimeError("No run directory found")
     art = os.path.join(rd, "artifacts")
     metrics = json.load(open(os.path.join(art, "metrics.json"), "r", encoding="utf-8"))
     return rd, metrics
