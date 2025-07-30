@@ -8,7 +8,7 @@ from app.db import connect, start_run as db_start_run, end_run as db_end_run, ad
 from app.llm_providers import LLMRouter
 from app.context_pack import build_context_pack, write_context_pack
 from app.costs import estimate
-from app.memory.store import open_db as mem_open, load_snapshot as mem_load, persist_from_artifacts as mem_persist
+from app.review.qa import generate_qa_report
 
 AGENTS = {
     "researcher": researcher.run,
@@ -61,19 +61,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     db_start_run(db, os.path.basename(run_dir), state.intake.get("objective",""), manifest.get("budget_eur", 0), model_info=manifest)
 
     router = LLMRouter()
-
-    # Cross-run memory
-    mem_read = os.getenv("MEMORY_READ", "1") == "1"
-    mem_write = os.getenv("MEMORY_WRITE", "1") == "1"
-    memory_snapshot = {"facts": [], "segments": [], "pillars": [], "stats": {"facts_total":0,"segments_total":0,"pillars_total":0}}
-    if mem_read:
-        mdb = mem_open(os.getenv("MEMORY_DB_PATH"))
-        memory_snapshot = mem_load(mdb)
-        with open(os.path.join(artifacts_dir, "memory_snapshot.json"), "w", encoding="utf-8") as f:
-            json.dump(memory_snapshot, f, indent=2, ensure_ascii=False)
-
     context_pack = build_context_pack(state.compass_meta, state.intake)
-    context_pack["memory_stats"] = memory_snapshot.get("stats", {})
     write_context_pack(os.path.join(artifacts_dir,"context_pack.json"), context_pack)
 
     ctx = {
@@ -85,8 +73,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         "db": db,
         "run_id": os.path.basename(run_dir),
         "current_task_id": None,
-        "context_pack": context_pack,
-        "memory": memory_snapshot
+        "context_pack": context_pack
     }
 
     for role, goal in PIPELINE:
@@ -127,6 +114,11 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
                 resolve_gate(db, os.path.basename(run_dir), task.id, "GATE_B_FIRST_ASSET", "approved")
                 log.event("gate_resumed", gate="GATE_B_FIRST_ASSET")
 
+                # ---- QA report (after copywriter + Gate B) ----
+                qa = generate_qa_report(artifacts_dir, context_pack)
+                qa_path = os.path.join(artifacts_dir, "qa_report.json")
+                add_artifact(db, os.path.basename(run_dir), task.id, qa_path, "json", "QA report")
+
         except Exception as e:
             task.status = "failed"
             complete_task(db, task.id, "failed")
@@ -135,18 +127,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
-    if mem_write:
-        try:
-            ev = json.load(open(os.path.join(artifacts_dir,"evidence_pack.json"),"r",encoding="utf-8"))
-            sp = json.load(open(os.path.join(artifacts_dir,"strategy_pack.json"),"r",encoding="utf-8"))
-            mdb = mem_open(os.getenv("MEMORY_DB_PATH"))
-            counts = mem_persist(mdb, ev, sp)
-            with open(os.path.join(artifacts_dir, "memory_persist_report.json"), "w", encoding="utf-8") as f:
-                json.dump({"upserted": counts}, f, indent=2)
-        except Exception as e:
-            with open(os.path.join(artifacts_dir, "memory_persist_report.json"), "w", encoding="utf-8") as f:
-                json.dump({"error": str(e)}, f, indent=2)
-
+    # Summary
     index_path = os.path.join(run_dir, "SUMMARY.md")
     with open(index_path, "w", encoding="utf-8") as f:
         f.write("# Run Summary\n\n")
