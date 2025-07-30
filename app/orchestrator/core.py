@@ -10,6 +10,8 @@ from app.context_pack import build_context_pack, write_context_pack
 from app.costs import estimate
 from app.review.qa import generate_qa_report
 from app.routing.config import load_routing, apply_env
+from app.experiment.util import write_experiment_json, choose_variant
+from app.metrics.collector import write_metrics
 
 AGENTS = {
     "researcher": researcher.run,
@@ -102,7 +104,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     artifacts_dir = os.path.join(run_dir, "artifacts")
     os.makedirs(artifacts_dir, exist_ok=True)
 
-    # Apply routing (PR-D)
+    # Routing
     routing_cfg = load_routing(os.getenv("ROUTING_CONFIG_PATH", "config/routing.yml"))
     resolved = apply_env(routing_cfg)
     with open(os.path.join(artifacts_dir, "routing_resolved.json"), "w", encoding="utf-8") as f:
@@ -120,6 +122,9 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
     router = LLMRouter()
     context_pack = build_context_pack(state.compass_meta, state.intake)
     write_context_pack(os.path.join(artifacts_dir,"context_pack.json"), context_pack)
+
+    # Experiment metadata (decides baseline/treatment if in canary mode)
+    exp_meta = write_experiment_json(artifacts_dir, start_run)
 
     ctx = {
         "compass_meta": state.compass_meta,
@@ -152,7 +157,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             complete_task(db, task.id, "done")
             log.event("task_completed", role=role, task_id=task.id, artifacts=[a.path for a in arts])
 
-            # Budget checks (soft warn + hard stop)
+            # Budget checks
             spent = _sum_costs(db)
             if budget and not warned and spent >= warn_pct * budget:
                 warned = True
@@ -186,7 +191,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
                 resolve_gate(db, os.path.basename(run_dir), task.id, "GATE_B_FIRST_ASSET", "approved")
                 log.event("gate_resumed", gate="GATE_B_FIRST_ASSET")
 
-                # QA report (PR-C)
+                # QA report after Gate B
                 qa = generate_qa_report(artifacts_dir, context_pack)
                 qa_path = os.path.join(artifacts_dir, "qa_report.json")
                 add_artifact(db, os.path.basename(run_dir), task.id, qa_path, "json", "QA report")
@@ -199,7 +204,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         finally:
             ctx["current_task_id"] = None
 
-    # --- Write SUMMARY.md with Budget banner + Health + Cost + Quality ---
+    # --- SUMMARY.md (includes budget banner + cost + quality) ---
     by_task_cost = _costs_by_task(db)
     roles = _task_roles(db)
     by_role = defaultdict(float)
@@ -209,7 +214,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
 
     index_path = os.path.join(run_dir, "SUMMARY.md")
     with open(index_path, "w", encoding="utf-8") as f:
-        # Title + optional budget banner (v3.2.2)
+        # Title + budget banner
         f.write("# Run Summary\n\n")
         if budget and spent >= warn_pct * budget:
             util = (spent/budget)*100.0
@@ -235,9 +240,19 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         for role, cost in by_role.items():
             f.write(f"  - {role}: {cost:.4f}\n")
 
-        # Quality section (v3.2.2)
+        # Quality section
         f.write("\n## Quality\n")
         f.write(_quality_summary(artifacts_dir) + "\n")
+
+        # Experiment section
+        f.write("\n## Experiment\n")
+        f.write(f"- experiment_id: {exp_meta.get('experiment_id')}\n")
+        f.write(f"- variant: {exp_meta.get('variant')}\n")
+        if exp_meta.get("scenario"):
+            f.write(f"- scenario: {exp_meta.get('scenario')}\n")
+
+    # --- Metrics artifact ---
+    write_metrics(run_dir, db=db, cost_estimator=estimate)
 
     status = "aborted" if (budget and spent > budget) else "completed"
     db_end_run(db, os.path.basename(run_dir), status)
