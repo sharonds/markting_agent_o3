@@ -1,0 +1,178 @@
+{
+  "icp": {
+    "segments": [
+      {
+        "name": "SMB Founders",
+        "jobs": [
+          "CEO",
+          "Founder",
+          "Entrepreneur"
+        ],
+        "pains": [
+          "Limited resources for manual tasks",
+          "Difficulty managing multiple tools",
+          "Time-consuming operational processes"
+        ],
+        "gains": [
+          "Streamlined operations",
+          "Increased productivity",
+          "Cost-effective automation"
+        ],
+        "triggers": [
+          "Rapid business growth",
+          "Overwhelmed by manual tasks",
+          "Seeking efficiency improvements"
+        ],
+        "qualifiers": [
+          "Small to medium-sized business",
+          "Uses multiple SaaS tools",
+          "Based in EU or UK"
+        ],
+        "disqualifiers": [
+          "Large enterprise",
+          "Extensive in-house IT team",
+          "Highly customised legacy systems"
+        ],
+        "objections": [
+          "We're too small for automation",
+          "It's too complicated to set up",
+          "We can't afford another tool",
+          "Our processes are too unique"
+        ]
+      },
+      {
+        "name": "SaaS Operations Leads",
+        "jobs": [
+          "Operations Manager",
+          "Head of Operations",
+          "COO"
+        ],
+        "pains": [
+          "Data silos between departments",
+          "Inefficient workflow processes",
+          "Lack of integration between tools"
+        ],
+        "gains": [
+          "Seamless data flow between apps",
+          "Automated routine tasks",
+          "Improved team productivity"
+        ],
+        "triggers": [
+          "Scaling operations",
+          "Implementing new SaaS tools",
+          "Pressure to reduce operational costs"
+        ],
+        "qualifiers": [
+          "SaaS or services company",
+          "50-250 employees",
+          "Multiple department coordination"
+        ],
+        "disqualifiers": [
+          "Fully manual processes preferred",
+          "Single app ecosystem",
+          "Strict no-cloud policy"
+        ],
+        "objections": [
+          "We need a more customised solution",
+          "Our data is too sensitive for cloud tools",
+          "We're worried about app dependencies",
+          "It might disrupt our current workflows"
+        ]
+      }
+    ]
+  },
+  "positioning": {
+    "category": "Workflow Automation Platform",
+    "for": "SMB founders and operations leads",
+    "who": "struggle with time-consuming manual tasks and disconnected tools",
+    "our_product": "Zapier",
+    "is_a": "no-code automation solution",
+    "unlike": "complex enterprise automation systems or limited single-vendor integrations",
+    "we": "empower businesses to easily connect and automate their favourite apps, saving time and reducing errors without any coding required",
+    "rtbs": [
+      {
+        "text": "Integrates with over 3,000 apps, providing unparalleled flexibility for businesses of all types",
+        "evidence_ids": [
+          "facts[0]"
+        ]
+      },
+      {
+        "text": "Trusted by over 4 million users worldwide to streamline their operations",
+        "evidence_ids": [
+          "facts[1]"
+        ]
+      },
+      {
+        "text": "Offers a free plan for simple automations, allowing businesses to start saving time immediately",
+        "evidence_ids": [
+          "facts[2]"
+        ]
+      }
+    ]
+  },
+  "messaging": {
+    "pillars": [
+      {
+        "id": "p1",
+        "name": "Effortless Integration",
+        "claims": [
+          "Connect your favourite apps without coding",
+          "Create powerful workflows in minutes",
+          "Automate tasks across 3,000+ apps"
+        ],
+        "evidence_ids": [
+          "facts[0]"
+        ],
+        "tones": [
+          "friendly",
+          "practical"
+        ],
+        "ctas": [
+          "Explore our app integrations",
+          "Start automating for free"
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Time-Saving Automation",
+        "claims": [
+          "Reduce manual tasks and focus on growth",
+          "Streamline operations across your business",
+          "Boost productivity with smart workflows"
+        ],
+        "evidence_ids": [
+          "facts[3]"
+        ],
+        "tones": [
+          "clear",
+          "practical"
+        ],
+        "ctas": [
+          "Calculate your time savings",
+          "See automation in action"
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "Scalable for SMBs",
+        "claims": [
+          "Start free and scale as you grow",
+          "Trusted by millions of businesses worldwide",
+          "Flexible solutions for every department"
+        ],
+        "evidence_ids": [
+          "facts[1]",
+          "facts[2]"
+        ],
+        "tones": [
+          "friendly",
+          "clear"
+        ],
+        "ctas": [
+          "Try Zapier for free",
+          "Explore plans for your business"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "sentences": 11,
+  "words": 141,
+  "avg_words_per_sentence": 12.82,
+  "exclamations": 3,
+  "all_caps_ratio": 0.0,
+  "passive_hits": 0,
+  "passive_per_sentence": 0.0,
+  "flags": [
+    "too_many_exclamations"
+  ]
+}

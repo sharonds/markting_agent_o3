@@ -45,18 +45,19 @@ Pillar:
 {json.dumps(pillar, indent=2)}
 
 Evidence Pack (IDs + claims):
-{json.dumps([{"id":f["id"], "claim": f["claim"]} for f in evidence.get("facts",[])], indent=2)}
+{json.dumps([{"id":f.get("id", f"f{i}"), "claim": f.get("claim", f.get("fact", ""))} for i, f in enumerate(evidence.get("facts",[]))], indent=2)}
 
 Return plain text only. Replace generic terms like "our platform" with "{brand}". End with "Sources: fX, fY".
 """
         resp = provider.chat([{"role":"system","content":"You are an excellent marketing copywriter."},
                               {"role":"user","content": message}], temperature=0.7, max_tokens=300)
         draft = resp.text or ""
-        add_message(ctx['db'], ctx['run_id'], ctx['current_task_id'], "assistant", provider.name, resp.text, getattr(resp,"usage",None))
+        usage = {"prompt_tokens": getattr(resp.usage, "prompt_tokens", 0), "completion_tokens": getattr(resp.usage, "completion_tokens", 0)} if resp.usage else None
+        add_message(ctx['db'], ctx['run_id'], ctx['current_task_id'], "assistant", provider.name, resp.text, usage)
 
     banned = ctx['compass_meta'].get('guardrails',{}).get('banned_phrases',[])
     draft = re.sub(r"\bour platform\b", brand, draft, flags=re.I)
-    draft = _ensure_sources(draft, [f["id"] for f in evidence.get("facts",[]) if f.get("id")])
+    draft = _ensure_sources(draft, [f.get("id", f"f{i}") for i, f in enumerate(evidence.get("facts",[]))])
     ok, hits = check_text(draft, banned)
 
     post_filename = os.getenv("POST_FILENAME", "post_linkedin.md").strip() or "post_linkedin.md"

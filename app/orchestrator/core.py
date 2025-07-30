@@ -47,6 +47,35 @@ def _metrics(run_dir):
         "calendar_pillar_mismatches":len(bad_calendar)
     }
 
+def _gateA_report(run_dir):
+    base = os.path.join(run_dir, "artifacts")
+    ev = json.load(open(os.path.join(base,"evidence_pack.json"),"r",encoding="utf-8"))
+    sp = json.load(open(os.path.join(base,"strategy_pack.json"),"r",encoding="utf-8"))
+    fact_by_id = {f["id"]: f for f in ev.get("facts",[]) if "id" in f}
+    pillars = (sp.get("messaging") or {}).get("pillars",[])
+    coverage = []
+    low_quality = []
+    for p in pillars:
+        eids = p.get("evidence_ids", [])
+        resolved = [eid for eid in eids if eid in fact_by_id]
+        missing = [eid for eid in eids if eid not in fact_by_id]
+        prov_scores = [float(fact_by_id[eid].get("provenance_score", 0.0)) for eid in resolved] or [0.0]
+        avg_prov = round(sum(prov_scores)/len(prov_scores), 3)
+        row = {
+            "pillar_id": p.get("id"),
+            "name": p.get("name"),
+            "evidence_ids": eids,
+            "resolved": resolved,
+            "missing": missing,
+            "avg_provenance": avg_prov
+        }
+        coverage.append(row)
+        if avg_prov < float(os.getenv("PROVENANCE_MIN_AVG", "0.5")):
+            low_quality.append({"pillar_id": p.get("id"), "avg_provenance": avg_prov})
+    out = {"coverage": coverage, "missing_total": sum(len(r["missing"]) for r in coverage), "low_quality": low_quality}
+    json.dump(out, open(os.path.join(base,"gateA_report.json"),"w",encoding="utf-8"), indent=2)
+    return out
+
 def _sum_costs(db):
     try:
         c = db.execute("select model, coalesce(usage_prompt,0), coalesce(usage_completion,0) from messages")
@@ -85,9 +114,6 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
         "context_pack": context_pack
     }
 
-    budget_eur = manifest.get("budget_eur", 0.0)
-
-    aborted = False
     for role, goal in PIPELINE:
         task = Task(id=f"{int(time.time())}-{role}", role=role, goal=goal)
         state.tasks.append(task)
@@ -104,17 +130,12 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             complete_task(db, task.id, "done")
             log.event("task_completed", role=role, task_id=task.id, artifacts=[a.path for a in arts])
 
-            spent = _sum_costs(db)
-            if budget_eur and spent > budget_eur:
-                log.event("budget_exceeded", spent_eur=float(spent), budget_eur=float(budget_eur), role=role)
-                aborted = True
-                break
-
             if role == "strategist":
                 gate_summary = "Review ICP + Positioning + Messaging (Gate A)"
                 add_gate(db, os.path.basename(run_dir), task.id, "GATE_A_POSITIONING", gate_summary)
+                rep = _gateA_report(run_dir)
                 with open(os.path.join(run_dir, "pending_gate.json"), "w", encoding="utf-8") as f:
-                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id}, f, indent=2)
+                    json.dump({"gate":"GATE_A_POSITIONING","summary":gate_summary,"task_id":task.id, "report": rep}, f, indent=2)
                 log.event("gate_waiting", gate="GATE_A_POSITIONING")
                 if os.getenv("AUTO_APPROVE","0") != "1":
                     input(">> Gate A waiting. Press Enter to approve...")
@@ -154,10 +175,7 @@ def run_pipeline(state: ProjectState, run_dir: str, log: EventLogger) -> Project
             f.write(f"- {k}: {v}\n")
         spent = _sum_costs(db)
         f.write(f"\n## Cost\n- estimated_spend_eur: {spent:.4f}\n")
-        if aborted:
-            f.write(f"- status: aborted_due_to_budget (budget_eur={budget_eur})\n")
 
-    status = "aborted" if aborted else "completed"
-    db_end_run(db, os.path.basename(run_dir), status)
-    log.event("run_completed", spent_eur=float(spent), status=status)
+    db_end_run(db, os.path.basename(run_dir), "completed")
+    log.event("run_completed", spent_eur=float(spent))
     return state

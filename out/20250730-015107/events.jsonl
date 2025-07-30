@@ -1,0 +1,14 @@
+{"ts": "2025-07-29T23:51:07.037726Z", "event": "run_started", "run_id": "20250730-015107", "goal": "v3.2.1 test"}
+{"ts": "2025-07-29T23:51:07.043870Z", "event": "task_started", "role": "researcher", "goal": "Compile research/evidence pack", "task_id": "1753833067-researcher"}
+{"ts": "2025-07-29T23:51:16.589723Z", "event": "task_completed", "role": "researcher", "task_id": "1753833067-researcher", "artifacts": ["out/20250730-015107/artifacts/evidence_pack.json"]}
+{"ts": "2025-07-29T23:51:16.590054Z", "event": "task_started", "role": "strategist", "goal": "Draft ICP + positioning + messaging", "task_id": "1753833076-strategist"}
+{"ts": "2025-07-29T23:51:34.973838Z", "event": "task_completed", "role": "strategist", "task_id": "1753833076-strategist", "artifacts": ["out/20250730-015107/artifacts/strategy_pack.json", "out/20250730-015107/artifacts/positioning.md"]}
+{"ts": "2025-07-29T23:51:34.974436Z", "event": "gate_waiting", "gate": "GATE_A_POSITIONING"}
+{"ts": "2025-07-29T23:51:34.974582Z", "event": "gate_resumed", "gate": "GATE_A_POSITIONING"}
+{"ts": "2025-07-29T23:51:34.974663Z", "event": "task_started", "role": "content_planner", "goal": "Build content calendar from timeline/channels", "task_id": "1753833094-content_planner"}
+{"ts": "2025-07-29T23:51:34.975720Z", "event": "task_completed", "role": "content_planner", "task_id": "1753833094-content_planner", "artifacts": ["out/20250730-015107/artifacts/calendar.json", "out/20250730-015107/artifacts/content_calendar.csv"]}
+{"ts": "2025-07-29T23:51:34.975811Z", "event": "task_started", "role": "copywriter", "goal": "Draft first LinkedIn post", "task_id": "1753833094-copywriter"}
+{"ts": "2025-07-29T23:51:39.199696Z", "event": "task_completed", "role": "copywriter", "task_id": "1753833094-copywriter", "artifacts": ["out/20250730-015107/artifacts/post_linkedin.md", "out/20250730-015107/artifacts/style_report.json", "out/20250730-015107/artifacts/policy_check.json", "out/20250730-015107/artifacts/gateB_report.json"]}
+{"ts": "2025-07-29T23:51:39.201134Z", "event": "gate_waiting", "gate": "GATE_B_FIRST_ASSET"}
+{"ts": "2025-07-29T23:51:39.201348Z", "event": "gate_resumed", "gate": "GATE_B_FIRST_ASSET"}
+{"ts": "2025-07-29T23:51:39.201909Z", "event": "run_completed", "spent_eur": 0.000472512, "status": "completed"}
